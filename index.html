@@ -89,15 +89,64 @@
     footer a { color: var(--green); text-decoration: none; }
     .footer-copy { font-size: 12px; color: rgba(255,255,255,0.3); margin-top: 24px; }
     .gallery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 48px; }
-.gallery-item { background: white; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
-.gallery-pair { display: grid; grid-template-columns: 1fr 1fr; }
-.gallery-img { position: relative; }
-.gallery-img img { width: 100%; height: 220px; object-fit: cover; display: block; }
-.gallery-label { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.55); color: white; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; }
-.gallery-label.after { background: var(--green); }
-.gallery-caption { padding: 12px 16px; font-size: 13px; color: var(--text-muted); font-weight: 500; }
-@media (max-width: 768px) { .gallery-grid { grid-template-columns: 1fr; } }
-@media (max-width: 768px) { .nav-links { display: none; } .hero { padding: 60px 20px; } .hero-stats { gap: 28px; } .section, .process-section, .pricing-section, .trial-section { padding: 60px 20px; } .services-grid { grid-template-columns: repeat(2, 1fr); } }
+    .gallery-item { background: white; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
+    .gallery-pair { display: grid; grid-template-columns: 1fr 1fr; }
+    .gallery-img { position: relative; }
+    .gallery-img img { width: 100%; height: 220px; object-fit: cover; display: block; }
+    .gallery-label { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.55); color: white; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; }
+    .gallery-label.after { background: var(--green); }
+    .gallery-caption { padding: 12px 16px; font-size: 13px; color: var(--text-muted); font-weight: 500; }
+
+    /* Hamburger button — hidden on desktop */
+    .nav-hamburger { display: none; background: none; border: none; font-size: 24px; cursor: pointer; color: var(--text); padding: 8px; }
+
+    @media (max-width: 768px) {
+      .gallery-grid { grid-template-columns: 1fr; }
+      /* Hamburger nav */
+      .nav-hamburger { display: block; }
+      .nav-links { display: none; position: absolute; top: 64px; left: 0; right: 0; background: white; border-bottom: 1px solid var(--border); flex-direction: column; padding: 16px 24px; gap: 16px; z-index: 200; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+      .nav-links.open { display: flex; }
+      .hero { padding: 60px 20px; }
+      .hero-stats { gap: 28px; }
+      .section, .process-section, .pricing-section, .trial-section { padding: 60px 20px; }
+      .services-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* Issue 1 — Stats bar 2×2 on small mobile */
+    @media (max-width: 480px) {
+      .hero-stats {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px 32px;
+        justify-items: center;
+      }
+    }
+
+    /* Issue 2 — Trust strip centering on mobile */
+    @media (max-width: 600px) {
+      .turnaround-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        max-width: 280px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .ta-item {
+        text-align: left;
+      }
+    }
+
+    /* Issue 3 — General mobile centering */
+    @media (max-width: 600px) {
+      .section-sub {
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .process-section .section-sub {
+        text-align: center;
+      }
+    }
   </style>
 </head>
 <body>
@@ -116,13 +165,16 @@
         <div class="nav-logo-text"><span class="brand">CRISPR</span><span class="sub">Editing Agency</span></div>
       </a>
       <ul class="nav-links">
-        <li><a href="#services">Services</a></li> <li><a href="#work">Work</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#work">Work</a></li>
         <li><a href="#how-it-works">How It Works</a></li>
         <li><a href="#pricing">Pricing</a></li>
         <li><a href="mailto:crispreditingagency@gmail.com" class="btn btn-primary" style="padding:8px 18px;font-size:13px;">Get Free Trial</a></li>
       </ul>
+      <button class="nav-hamburger" onclick="this.closest('nav').querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">&#9776;</button>
     </div>
   </nav>
+
   <section class="hero">
     <div class="hero-badge"><span class="dot"></span>10 photos edited free — no commitment</div>
     <h1>Real Estate Photos<br/><span>Edited to Perfection</span></h1>
@@ -138,6 +190,7 @@
       <div class="hero-stat"><div class="num">Free</div><div class="label">revisions</div></div>
     </div>
   </section>
+
   <div class="turnaround-strip">
     <div class="turnaround-inner">
       <div class="ta-item"><span class="ta-icon">&#9889;</span><div class="ta-text"><div class="title">24-Hour Turnaround</div><div class="desc">Standard delivery on all orders</div></div></div>
@@ -146,6 +199,7 @@
       <div class="ta-item"><span class="ta-icon">&#128179;</span><div class="ta-text"><div class="title">Monthly Invoicing</div><div class="desc">Simple PayPal billing, no surprises</div></div></div>
     </div>
   </div>
+
   <section class="section" id="services">
     <div class="section-inner">
       <div class="section-label">What We Do</div>
@@ -161,69 +215,46 @@
       </div>
     </div>
   </section>
-  
-<section class="section" id="work" style="background: var(--bg-gray);">
-  <div class="section-inner">
-    <p class="section-label">OUR WORK</p>
-    <h2 class="section-title">See the Difference</h2>
-    <p class="section-sub">Real edits from real listings. Hover to compare before and after.</p>
-    <div class="gallery-grid">
-      <div class="gallery-item">
-        <div class="gallery-pair">
-          <div class="gallery-img">
-            <span class="gallery-label">Before</span>
-            <img src="https://lh3.googleusercontent.com/d/1dOFs_GXUf1Hiu9dYhkSHHji-Re4kzjnG" alt="Before editing" loading="lazy" />
+
+  <section class="section" id="work" style="background: var(--bg-gray);">
+    <div class="section-inner">
+      <p class="section-label">OUR WORK</p>
+      <h2 class="section-title">See the Difference</h2>
+      <p class="section-sub">Real edits from real listings. Hover to compare before and after.</p>
+      <div class="gallery-grid">
+        <div class="gallery-item">
+          <div class="gallery-pair">
+            <div class="gallery-img"><span class="gallery-label">Before</span><img src="https://lh3.googleusercontent.com/d/1dOFs_GXUf1Hiu9dYhkSHHji-Re4kzjnG" alt="Before editing" loading="lazy" /></div>
+            <div class="gallery-img"><span class="gallery-label after">After</span><img src="https://lh3.googleusercontent.com/d/1P9vidawIokJVdzKzrDHEkkA--Np1tKmP" alt="After editing" loading="lazy" /></div>
           </div>
-          <div class="gallery-img">
-            <span class="gallery-label after">After</span>
-            <img src="https://lh3.googleusercontent.com/d/1P9vidawIokJVdzKzrDHEkkA--Np1tKmP" alt="After editing" loading="lazy" />
-          </div>
+          <p class="gallery-caption">Interior HDR Blend</p>
         </div>
-        <p class="gallery-caption">Interior HDR Blend</p>
-      </div>
-      <div class="gallery-item">
-        <div class="gallery-pair">
-          <div class="gallery-img">
-            <span class="gallery-label">Before</span>
-            <img src="https://lh3.googleusercontent.com/d/1rArUlIW_iGl-ffPVLK0jNw-3aHlVz5k7" alt="Before editing" loading="lazy" />
+        <div class="gallery-item">
+          <div class="gallery-pair">
+            <div class="gallery-img"><span class="gallery-label">Before</span><img src="https://lh3.googleusercontent.com/d/1rArUlIW_iGl-ffPVLK0jNw-3aHlVz5k7" alt="Before editing" loading="lazy" /></div>
+            <div class="gallery-img"><span class="gallery-label after">After</span><img src="https://lh3.googleusercontent.com/d/137_Xb0PId90npHqOEqGMcbRybSYetG_g" alt="After editing" loading="lazy" /></div>
           </div>
-          <div class="gallery-img">
-            <span class="gallery-label after">After</span>
-            <img src="https://lh3.googleusercontent.com/d/137_Xb0PId90npHqOEqGMcbRybSYetG_g" alt="After editing" loading="lazy" />
-          </div>
+          <p class="gallery-caption">Sky Replacement + Exterior</p>
         </div>
-        <p class="gallery-caption">Sky Replacement + Exterior</p>
-      </div>
-      <div class="gallery-item">
-        <div class="gallery-pair">
-          <div class="gallery-img">
-            <span class="gallery-label">Before</span>
-            <img src="https://lh3.googleusercontent.com/d/1QHUyFytmsCxkfepysPNmNCsDDCifkOwu" alt="Before editing" loading="lazy" />
+        <div class="gallery-item">
+          <div class="gallery-pair">
+            <div class="gallery-img"><span class="gallery-label">Before</span><img src="https://lh3.googleusercontent.com/d/1QHUyFytmsCxkfepysPNmNCsDDCifkOwu" alt="Before editing" loading="lazy" /></div>
+            <div class="gallery-img"><span class="gallery-label after">After</span><img src="https://lh3.googleusercontent.com/d/1ZPKH_UWk6n4fbzlgZdVCYvNw7tYNoQf8" alt="After editing" loading="lazy" /></div>
           </div>
-          <div class="gallery-img">
-            <span class="gallery-label after">After</span>
-            <img src="https://lh3.googleusercontent.com/d/1ZPKH_UWk6n4fbzlgZdVCYvNw7tYNoQf8" alt="After editing" loading="lazy" />
-          </div>
+          <p class="gallery-caption">Interior HDR Blend</p>
         </div>
-        <p class="gallery-caption">Interior HDR Blend</p>
-      </div>
-      <div class="gallery-item">
-        <div class="gallery-pair">
-          <div class="gallery-img">
-            <span class="gallery-label">Before</span>
-            <img src="https://lh3.googleusercontent.com/d/1aJZdlZh-Xrnec-zinXV_9IXnOU0-62B2" alt="Before editing" loading="lazy" />
+        <div class="gallery-item">
+          <div class="gallery-pair">
+            <div class="gallery-img"><span class="gallery-label">Before</span><img src="https://lh3.googleusercontent.com/d/1aJZdlZh-Xrnec-zinXV_9IXnOU0-62B2" alt="Before editing" loading="lazy" /></div>
+            <div class="gallery-img"><span class="gallery-label after">After</span><img src="https://lh3.googleusercontent.com/d/1EwpnoQB87OhxRCHkuvyvOt69-9xeLRls" alt="After editing" loading="lazy" /></div>
           </div>
-          <div class="gallery-img">
-            <span class="gallery-label after">After</span>
-            <img src="https://lh3.googleusercontent.com/d/1EwpnoQB87OhxRCHkuvyvOt69-9xeLRls" alt="After editing" loading="lazy" />
-          </div>
+          <p class="gallery-caption">Pool + Dusk Edit</p>
         </div>
-        <p class="gallery-caption">Pool + Dusk Edit</p>
       </div>
     </div>
-  </div>
-</section>
-<section class="process-section" id="how-it-works">
+  </section>
+
+  <section class="process-section" id="how-it-works">
     <div class="section-inner">
       <div class="section-label">Process</div>
       <h2 class="section-title">Dead Simple to Get Started</h2>
@@ -236,6 +267,7 @@
       </div>
     </div>
   </section>
+
   <section class="pricing-section" id="pricing">
     <div class="section-inner" style="text-align:center;">
       <div class="section-label">Pricing</div>
@@ -257,6 +289,7 @@
       <a href="mailto:crispreditingagency@gmail.com?subject=Free%20Trial%20Request%20%E2%80%94%2010%20Photos&body=Hi%2C%20I%27d%20like%20to%20try%20the%2010%20free%20photo%20edits.%20Attaching%20my%20RAW%2FJPEG%20files%20now." class="btn btn-primary" style="width:100%;">Start Free Trial</a>
     </div>
   </section>
+
   <section class="trial-section" id="free-trial">
     <div style="position:relative;z-index:1;">
       <h2>Try It Free. Zero Risk.</h2>
@@ -265,26 +298,27 @@
       <p class="trial-note">Email your photos to crispreditingagency@gmail.com — RAW or JPEG accepted</p>
     </div>
   </section>
+
   <footer>
     <div class="footer-inner">
       <div class="footer-logo">
         <svg width="36" height="36" viewBox="0 0 110 110" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <linearGradient id="ft-bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#22c98b"/>
-      <stop offset="100%" style="stop-color:#0d8a5e"/>
-    </linearGradient>
-    <linearGradient id="ft-cs" x1="78" y1="34" x2="78" y2="76" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#ffffff" stop-opacity="1"/>
-      <stop offset="100%" stop-color="#b8ebd6" stop-opacity="0.75"/>
-    </linearGradient>
-  </defs>
-  <rect x="0" y="0" width="110" height="110" rx="22" fill="url(#ft-bg)"/>
-  <path d="M 78,34 A 30,30 0 1,0 78,76" fill="none" stroke="url(#ft-cs)" stroke-width="12" stroke-linecap="round"/>
-  <circle cx="78" cy="34" r="6.5" fill="white"/>
-  <circle cx="78" cy="34" r="3" fill="#22c98b"/>
-  <circle cx="78" cy="76" r="3.5" fill="white" opacity="0.35"/>
-</svg>
+          <defs>
+            <linearGradient id="ft-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#22c98b"/>
+              <stop offset="100%" style="stop-color:#0d8a5e"/>
+            </linearGradient>
+            <linearGradient id="ft-cs" x1="78" y1="34" x2="78" y2="76" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#ffffff" stop-opacity="1"/>
+              <stop offset="100%" stop-color="#b8ebd6" stop-opacity="0.75"/>
+            </linearGradient>
+          </defs>
+          <rect x="0" y="0" width="110" height="110" rx="22" fill="url(#ft-bg)"/>
+          <path d="M 78,34 A 30,30 0 1,0 78,76" fill="none" stroke="url(#ft-cs)" stroke-width="12" stroke-linecap="round"/>
+          <circle cx="78" cy="34" r="6.5" fill="white"/>
+          <circle cx="78" cy="34" r="3" fill="#22c98b"/>
+          <circle cx="78" cy="76" r="3.5" fill="white" opacity="0.35"/>
+        </svg>
         <div class="footer-logo-text"><div class="brand">CRISPR</div><div class="sub">Editing Agency</div></div>
       </div>
       <p>Professional real estate photo editing.<br/>Fast, affordable, and built for photographers who want to scale.</p>
