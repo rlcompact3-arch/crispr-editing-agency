@@ -29,14 +29,17 @@ body {
   line-height: 1.6;
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
+  position: relative;
 }
 
 /* ===== CANVAS BACKGROUND ===== */
 #bg-canvas {
-  position: fixed;
-  inset: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
   z-index: -1;
   pointer-events: none;
+  will-change: transform;
 }
 
 /* ===== NAV ===== */
@@ -343,9 +346,9 @@ footer a { color: var(--green); text-decoration: none; }
       <!-- Slider 1: Exterior Day-to-Dusk -->
       <div class="gallery-item fade-in">
         <div class="ba-slider">
-          <img class="ba-before-img" src="https://lh3.googleusercontent.com/d/1aJZdlZh-Xrnec-zinXV_9IXnOU0-62B2" alt="Exterior pool before editing" loading="lazy" />
+          <img class="ba-before-img" src="https://lh3.googleusercontent.com/d/1EwpnoQB87OhxRCHkuvyvOt69-9xeLRls" alt="Exterior pool before editing" loading="lazy" />
           <div class="ba-after-wrap">
-            <img class="ba-after-img" src="https://lh3.googleusercontent.com/d/1EwpnoQB87OhxRCHkuvyvOt69-9xeLRls" alt="Exterior pool after editing" loading="lazy" />
+            <img class="ba-after-img" src="https://lh3.googleusercontent.com/d/1aJZdlZh-Xrnec-zinXV_9IXnOU0-62B2" alt="Exterior pool after editing" loading="lazy" />
           </div>
           <div class="ba-divider">
             <div class="ba-handle">
@@ -355,15 +358,15 @@ footer a { color: var(--green); text-decoration: none; }
           <span class="ba-label ba-label-b">Before</span>
           <span class="ba-label ba-label-a">After</span>
         </div>
-        <p class="gallery-caption">Sky Replacement + Exterior</p>
+        <p class="gallery-caption">Exterior Day-to-Dusk</p>
       </div>
 
       <!-- Slider 2: Living Room HDR Blend -->
       <div class="gallery-item fade-in">
         <div class="ba-slider">
-          <img class="ba-before-img" src="https://lh3.googleusercontent.com/d/143LOKmopw_OwJdiz_uI0A7fWmlNMBUdy" alt="Living room before editing" loading="lazy" />
+          <img class="ba-before-img" src="https://lh3.googleusercontent.com/d/1B2jnkHIv7tgt3_-e5351T9R3kA-Cwaof" alt="Living room before editing" loading="lazy" />
           <div class="ba-after-wrap">
-            <img class="ba-after-img" src="https://lh3.googleusercontent.com/d/1B2jnkHIv7tgt3_-e5351T9R3kA-Cwaof" alt="Living room after editing" loading="lazy" />
+            <img class="ba-after-img" src="https://lh3.googleusercontent.com/d/143LOKmopw_OwJdiz_uI0A7fWmlNMBUdy" alt="Living room after editing" loading="lazy" />
           </div>
           <div class="ba-divider">
             <div class="ba-handle">
@@ -373,15 +376,15 @@ footer a { color: var(--green); text-decoration: none; }
           <span class="ba-label ba-label-b">Before</span>
           <span class="ba-label ba-label-a">After</span>
         </div>
-        <p class="gallery-caption">Interior HDR Blend</p>
+        <p class="gallery-caption">Living Room HDR Blend</p>
       </div>
 
-      <!-- Slider 3: Master Bedroom HDR Blend (Kitchen) -->
+      <!-- Slider 2: Master Bedroom HDR Blend -->
       <div class="gallery-item fade-in">
         <div class="ba-slider">
-          <img class="ba-before-img" src="https://lh3.googleusercontent.com/d/1dOFs_GXUf1Hiu9dYhkSHHji-Re4kzjnG" alt="Master bedroom before editing" loading="lazy" />
+          <img class="ba-before-img" src="https://lh3.googleusercontent.com/d/1P9vidawIokJVdzKzrDHEkkA--Np1tKmP" alt="Master bedroom before editing" loading="lazy" />
           <div class="ba-after-wrap">
-            <img class="ba-after-img" src="https://lh3.googleusercontent.com/d/1P9vidawIokJVdzKzrDHEkkA--Np1tKmP" alt="Master bedroom after editing" loading="lazy" />
+            <img class="ba-after-img" src="https://lh3.googleusercontent.com/d/1dOFs_GXUf1Hiu9dYhkSHHji-Re4kzjnG" alt="Master bedroom after editing" loading="lazy" />
           </div>
           <div class="ba-divider">
             <div class="ba-handle">
@@ -391,10 +394,8 @@ footer a { color: var(--green); text-decoration: none; }
           <span class="ba-label ba-label-b">Before</span>
           <span class="ba-label ba-label-a">After</span>
         </div>
-        <p class="gallery-caption">Color Grading</p>
+        <p class="gallery-caption">Master Bedroom HDR Blend</p>
       </div>
-
-    </div>
   </div>
 </section>
 
@@ -563,41 +564,53 @@ footer a { color: var(--green); text-decoration: none; }
   function initBgCanvas() {
   const canvas = document.getElementById('bg-canvas');
   const ctx = canvas.getContext('2d');
-  let W, H;
-  function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
-  resize();
-  window.addEventListener('resize', resize);
-  const blobs = [
-    { bx:0.15, by:0.2,  cx:0.15, cy:0.2,  r:0.5,  color:[34,201,139,0.2],   sfx: 0.25, sfy:-0.6  },
-    { bx:0.85, by:0.5,  cx:0.85, cy:0.5,  r:0.45, color:[13,138,94,0.18],   sfx:-0.2,  sfy:-0.45 },
-    { bx:0.5,  by:0.05, cx:0.5,  cy:0.05, r:0.55, color:[6,182,212,0.12],   sfx: 0.1,  sfy:-0.5  },
-    { bx:0.1,  by:0.85, cx:0.1,  cy:0.85, r:0.38, color:[34,201,139,0.15],  sfx:-0.15, sfy:-0.55 },
-    { bx:0.75, by:0.15, cx:0.75, cy:0.15, r:0.42, color:[168,240,211,0.1],  sfx: 0.2,  sfy:-0.4  },
-    { bx:0.4,  by:0.95, cx:0.4,  cy:0.95, r:0.4,  color:[13,138,94,0.12],   sfx:-0.1,  sfy:-0.5  },
-  ];
-  const targets = blobs.map(b => ({ cx: b.bx, cy: b.by }));
-  window.addEventListener('scroll', () => {
-    const p = Math.min(1, window.scrollY / Math.max(1, document.body.scrollHeight - window.innerHeight));
-    blobs.forEach((b, i) => { targets[i].cx = b.bx + b.sfx * p; targets[i].cy = b.by + b.sfy * p; });
-  }, { passive: true });
-  function draw() {
-    blobs.forEach((b, i) => { b.cx += (targets[i].cx - b.cx) * 0.06; b.cy += (targets[i].cy - b.cy) * 0.06; });
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = Math.max(document.body.scrollHeight, window.innerHeight * 4);
+    drawFull();
+  }
+
+  function drawFull() {
+    const W = canvas.width;
+    const H = canvas.height;
     ctx.fillStyle = '#080f1a';
     ctx.fillRect(0, 0, W, H);
+    const blobs = [
+      { x: 0.15, y: 0.05, r: 0.55, color: [34,201,139,0.22] },
+      { x: 0.80, y: 0.15, r: 0.45, color: [6,182,212,0.15] },
+      { x: 0.40, y: 0.28, r: 0.5,  color: [13,138,94,0.18] },
+      { x: 0.10, y: 0.42, r: 0.48, color: [34,201,139,0.2] },
+      { x: 0.75, y: 0.52, r: 0.52, color: [168,240,211,0.12] },
+      { x: 0.50, y: 0.65, r: 0.45, color: [6,182,212,0.14] },
+      { x: 0.20, y: 0.75, r: 0.5,  color: [13,138,94,0.18] },
+      { x: 0.85, y: 0.85, r: 0.48, color: [34,201,139,0.2] },
+      { x: 0.35, y: 0.92, r: 0.44, color: [6,182,212,0.13] },
+      { x: 0.65, y: 0.98, r: 0.5,  color: [13,138,94,0.16] },
+    ];
     blobs.forEach(b => {
-      const cx = b.cx * W, cy = b.cy * H, radius = b.r * Math.min(W, H);
+      const cx = b.x * W;
+      const cy = b.y * H;
+      const radius = b.r * Math.min(W, H * 0.3);
       const [r,g,bl,a] = b.color;
       const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius);
-      grad.addColorStop(0, `rgba(${r},${g},${bl},${a})`);
+      grad.addColorStop(0, 'rgba(' + r + ',' + g + ',' + bl + ',' + a + ')');
       grad.addColorStop(1, 'rgba(0,0,0,0)');
-      ctx.fillStyle = grad; ctx.fillRect(0, 0, W, H);
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, W, H);
     });
-    ctx.strokeStyle = 'rgba(34,201,139,0.03)'; ctx.lineWidth = 1;
+    ctx.strokeStyle = 'rgba(34,201,139,0.025)';
+    ctx.lineWidth = 1;
     for (let x = 0; x < W; x += 80) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
     for (let y = 0; y < H; y += 80) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
-    requestAnimationFrame(draw);
   }
-  draw();
+
+  window.addEventListener('resize', resize);
+  resize();
+
+  window.addEventListener('scroll', () => {
+    canvas.style.transform = 'translateY(' + (-window.scrollY * 0.4) + 'px)';
+  }, { passive: true });
 }
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', function() {
