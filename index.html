@@ -577,7 +577,7 @@ footer a { color: var(--green); text-decoration: none; }
       var step = 620;
       var n = Math.ceil(totalH / step) + 3;
       for (var i = 0; i < n; i++) {
-        wpts.push({ x: W * 0.5 + Math.sin((i - 1) * step * 2 * Math.PI / 1500) * W * 0.850.40, wy: (i - 1) * step });
+        wpts.push({ x: W * 0.5 + Math.sin((i - 1) * step * 2 * Math.PI / 1500) * W * 0.85, wy: (i - 1) * step });
       }
     }
 
@@ -614,7 +614,7 @@ footer a { color: var(--green); text-decoration: none; }
       ctx.fillRect(0, 0, W, H);
 
       for (var wi = 0; wi < wpts.length; wi++) {
-      wpts[wi].x = W * 0.5 + Math.sin(wpts[wi].wy * 2 * Math.PI / 1500) * W * 0.850.40 + Math.sin(t*0.00028 + wi*1.4)*W*0.030;
+      wpts[wi].x = W * 0.5 + Math.sin(wpts[wi].wy * 2 * Math.PI / 1500) * W * 0.85 + Math.sin(t*0.00028 + wi*1.4)*W*0.030;
       }
 
       var pts = spineInView(scrollY);
