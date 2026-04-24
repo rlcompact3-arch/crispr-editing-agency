@@ -636,15 +636,15 @@ footer a { color: var(--green); text-decoration: none; }
       ctx.save();
       ctx.lineCap = 'round'; ctx.lineJoin = 'round';
       ctx.filter = 'blur(' + Math.min(200, Math.round(blur0 * 2.5)) + 'px)';
-      drawSpine(); ctx.lineWidth = hw * 4.5; ctx.strokeStyle = 'rgba(' + COLOR + ',' + (0.005*(1-rT*0.6)) + ')'; ctx.stroke();
+      drawSpine(); ctx.lineWidth = hw * 4.5; ctx.strokeStyle = 'rgba(' + COLOR + ',' + (0.12*(1-rT*0.4)) + ')'; ctx.stroke();
       ctx.filter = 'blur(' + Math.min(120, Math.round(blur0 * 1.5)) + 'px)';
-      drawSpine(); ctx.lineWidth = hw * 2.5; ctx.strokeStyle = 'rgba(' + COLOR + ',' + (0.010+rT*0.010) + ')'; ctx.stroke();
+      drawSpine(); ctx.lineWidth = hw * 2.5; ctx.strokeStyle = 'rgba(' + COLOR + ',' + (0.15+rT*0.10) + ')'; ctx.stroke();
       ctx.filter = 'blur(' + blur0 + 'px)';
-      drawSpine(); ctx.lineWidth = hw * 1.3; ctx.strokeStyle = 'rgba(' + COLOR + ',' + (0.018+rT*0.022) + ')'; ctx.stroke();
-      ctx.filter = 'blur(' + Math.round(Math.max(4, blur0 * 0.45)) + 'px)';
-      drawSpine(); ctx.lineWidth = hw * 0.65; ctx.strokeStyle = 'rgba(' + COLOR + ',' + (0.032+rT*0.050) + ')'; ctx.stroke();
-      ctx.filter = 'blur(' + Math.round(Math.max(2, blur0 * 0.18)) + 'px)';
-      drawSpine(); ctx.lineWidth = hw * 0.25; ctx.strokeStyle = 'rgba(' + CORE + ',' + (0.055+rT*0.090) + ')'; ctx.stroke();
+      drawSpine(); ctx.lineWidth = hw * 1.3; ctx.strokeStyle = 'rgba(' + COLOR + ',' + (0.20+rT*0.15) + ')'; ctx.stroke();
+      ctx.filter = 'blur(' + Math.round(Math.max(12, blur0 * 0.45)) + 'px)';
+      drawSpine(); ctx.lineWidth = Math.max(6, hw * 0.65); ctx.strokeStyle = 'rgba(' + COLOR + ',' + (0.28+rT*0.17) + ')'; ctx.stroke();
+      ctx.filter = 'blur(' + Math.round(Math.max(15, blur0 * 0.18)) + 'px)';
+      drawSpine(); ctx.lineWidth = Math.max(2, hw * 0.25); ctx.strokeStyle = 'rgba(' + CORE + ',' + (0.40+rT*0.15) + ')'; ctx.stroke();
       ctx.filter = 'none';
       ctx.restore();
     }
