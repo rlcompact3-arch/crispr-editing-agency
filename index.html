@@ -569,11 +569,7 @@ footer a { color: var(--green); text-decoration: none; }
       const els = document.querySelectorAll('section');
       sectionData = [];
       els.forEach(function(el, i) {
-        sectionData.push({
-          top: el.offsetTop,
-          height: el.offsetHeight,
-          dir: (i % 2 === 0) ? 1 : -1
-        });
+        sectionData.push({ top: el.offsetTop, height: el.offsetHeight, dir: (i % 2 === 0) ? 1 : -1 });
       });
     }
 
@@ -583,84 +579,85 @@ footer a { color: var(--green); text-decoration: none; }
       refreshSections();
     }
 
-    const ribbons = [
-      { color: '34,201,139', op: 0.12, lw: 2.2, spd: 0.00035, ph: 0.0 },
-      { color: '34,170,200', op: 0.09, lw: 1.8, spd: 0.00028, ph: 2.1 },
-      { color: '34,201,139', op: 0.15, lw: 2.8, spd: 0.00045, ph: 4.2 },
-      { color: '60,210,170', op: 0.08, lw: 1.5, spd: 0.00022, ph: 1.1 }
-    ];
-
+    // Per-section ribbon colors
+    const COLORS = ['34,201,139','34,155,210','34,201,139','55,215,160','34,201,139','34,155,210'];
+    const STEPS = 160;
     let t = 0;
 
-    function drawRibbon(rib, scrollY, viewH) {
-      const s = rib.spd * t;
-      const ph = rib.ph;
-      const viewMid = scrollY + viewH * 0.5;
+    // Scroll progress 0→1 for each section's ribbon reveal
+    function getProgress(sec, scrollY, viewH, i) {
+      // Section 0 (hero) is always fully revealed on page load
+      if (i === 0) return 1.0;
+      // Others: reveal as section scrolls into the viewport
+      const revealStart = sec.top - viewH * 0.85;
+      const revealEnd   = sec.top + sec.height * 0.35;
+      return Math.max(0, Math.min(1, (scrollY - revealStart) / (revealEnd - revealStart)));
+    }
 
-      // Build anchor points: top, one per section, bottom
+    function drawRibbon(sec, color, prog, idx) {
+      if (prog <= 0) return;
+
+      // Gentle undulation — moves the control points very slowly
+      const undY = Math.sin(t * 0.00025 + idx * 0.95) * 35;
+
+      // Ribbon sits across the vertical center of its section
+      const midY = sec.top + sec.height * 0.44;
+
+      // Bezier endpoints span the full viewport width (plus bleed off edges)
+      let p0, p1, p2, p3;
+      if (sec.dir === 1) {
+        // Sweeps left → right with a gentle S-bow
+        p0 = { x: -80,      y: midY - 15 };
+        p1 = { x: W * 0.30, y: midY - 80 + undY };
+        p2 = { x: W * 0.70, y: midY + 80 - undY };
+        p3 = { x: W + 80,   y: midY + 15 };
+      } else {
+        // Sweeps right → left
+        p0 = { x: W + 80,   y: midY - 15 };
+        p1 = { x: W * 0.70, y: midY - 80 + undY };
+        p2 = { x: W * 0.30, y: midY + 80 - undY };
+        p3 = { x: -80,      y: midY + 15 };
+      }
+
+      // Sample bezier up to prog fraction (divide by STEPS to get the right portion)
+      const drawCount = Math.ceil(prog * STEPS);
+      if (drawCount < 2) return;
       const pts = [];
-      pts.push({ x: W * (0.4 + 0.07 * Math.sin(s + ph)), y: -50 });
-
-      for (let i = 0; i < sectionData.length; i++) {
-        const sec = sectionData[i];
-        const secMid = sec.top + sec.height * 0.5;
-        // Signed distance in viewport-height units (positive = below center)
-        const dist = (secMid - viewMid) / viewH;
-        // Bell-curve influence: peaks at dist=0, near-zero beyond ~1.5vh
-        const influence = Math.exp(-dist * dist * 1.5);
-        // Base gentle drift
-        const baseX = 0.45 + 0.07 * Math.sin(s * 0.6 + ph + i * 0.9);
-        // Dramatic scroll swing: up to 38% of viewport width, alternating L/R
-        const swingX = sec.dir * 0.38 * influence;
-        pts.push({ x: W * (baseX + swingX), y: sec.top + sec.height * 0.35 });
+      for (let k = 0; k <= drawCount; k++) {
+        const u = k / STEPS;
+        const c = 1 - u;
+        pts.push({
+          x: c*c*c*p0.x + 3*c*c*u*p1.x + 3*c*u*u*p2.x + u*u*u*p3.x,
+          y: c*c*c*p0.y + 3*c*c*u*p1.y + 3*c*u*u*p2.y + u*u*u*p3.y
+        });
       }
 
-      pts.push({ x: W * (0.55 + 0.1 * Math.cos(s * 0.7 + ph)), y: H + 50 });
-
-      // Draw catmull-rom spline through anchor points
-      ctx.beginPath();
-      ctx.moveTo(pts[0].x, pts[0].y);
-      for (let i = 0; i < pts.length - 1; i++) {
-        const a0 = pts[Math.max(0, i - 1)];
-        const a1 = pts[i];
-        const a2 = pts[i + 1];
-        const a3 = pts[Math.min(pts.length - 1, i + 2)];
-        const cp1x = a1.x + (a2.x - a0.x) / 6;
-        const cp1y = a1.y + (a2.y - a0.y) / 6;
-        const cp2x = a2.x - (a3.x - a1.x) / 6;
-        const cp2y = a2.y - (a3.y - a1.y) / 6;
-        ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, a2.x, a2.y);
+      function stroke(lw, op) {
+        ctx.beginPath();
+        pts.forEach(function(pt, j) { if (j === 0) ctx.moveTo(pt.x, pt.y); else ctx.lineTo(pt.x, pt.y); });
+        ctx.strokeStyle = 'rgba(' + color + ',' + op + ')';
+        ctx.lineWidth = lw;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        ctx.stroke();
       }
 
-      // Gradient: full opacity across most of the page, fade at very top/bottom
-      const grad = ctx.createLinearGradient(0, 0, 0, H);
-      grad.addColorStop(0,    'rgba(' + rib.color + ',0)');
-      grad.addColorStop(0.04, 'rgba(' + rib.color + ',' + rib.op + ')');
-      grad.addColorStop(0.96, 'rgba(' + rib.color + ',' + rib.op + ')');
-      grad.addColorStop(1,    'rgba(' + rib.color + ',0)');
-      ctx.strokeStyle = grad;
-      ctx.lineWidth = rib.lw;
-      ctx.stroke();
+      const baseOp = 0.07 + 0.03 * prog;
+      stroke(150, baseOp);          // thick silk-ribbon body
+      stroke(50,  baseOp * 0.55);   // softer inner highlight
     }
 
     function draw() {
       t++;
       const scrollY = window.scrollY;
-      const viewH = window.innerHeight;
+      const viewH   = window.innerHeight;
 
       ctx.fillStyle = '#070d18';
       ctx.fillRect(0, 0, W, H);
-
-      const glow = ctx.createRadialGradient(W * 0.5, H * 0.18, 0, W * 0.5, H * 0.18, W * 0.65);
-      glow.addColorStop(0, 'rgba(13,138,94,0.04)');
-      glow.addColorStop(1, 'rgba(0,0,0,0)');
-      ctx.fillStyle = glow;
-      ctx.fillRect(0, 0, W, H);
-
       canvas.style.transform = 'translateY(' + (-scrollY * 0.25) + 'px)';
 
-      ribbons.forEach(function(rib) {
-        drawRibbon(rib, scrollY, viewH);
+      sectionData.forEach(function(sec, i) {
+        drawRibbon(sec, COLORS[i] || '34,201,139', getProgress(sec, scrollY, viewH, i), i);
       });
 
       requestAnimationFrame(draw);
