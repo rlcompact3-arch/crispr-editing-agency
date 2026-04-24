@@ -575,23 +575,28 @@ footer a { color: var(--green); text-decoration: none; }
 
   var VH = window.innerHeight;
 
-  // 5-phase breath cycle: thin(0) → stretch(1) → full(2) → contract(3) → thin(4)
-  // Breakpoints are VH-based: [0, 0.8*VH, 1.75*VH, 3*VH, 4*VH, 5*VH]. Cycle = 5*VH.
+  // Phase breakpoints (VH-based, 9xVH cycle):
+  // [0, 1.5, 3.5, 5.5, 7.5, 9.0] x VH
+  // Stretch and contract each span 2xVH for a slow, deliberate breath.
+  // Stretch uses quadratic ease-out: eased = 1-(1-t)^2.
   function getHw(scrollY) {
     var minHW = 22, maxHW = H * 1.3;
-    var CYCLE = VH * 5;
+    var CYCLE = VH * 9;
     var cp = (scrollY % CYCLE + CYCLE) % CYCLE;
-    var b1 = VH * 0.80;
-    var b2 = VH * 1.75;
-    var b3 = VH * 3.00;
-    var b4 = VH * 4.00;
+    var b1 = VH * 1.50;
+    var b2 = VH * 3.50;
+    var b3 = VH * 5.50;
+    var b4 = VH * 7.50;
     if (cp < b1) return minHW;
-    if (cp < b2) return minHW + (maxHW - minHW) * (cp - b1) / (b2 - b1);
+    if (cp < b2) {
+      var t = (cp - b1) / (b2 - b1);
+      var eased = 1 - (1 - t) * (1 - t);
+      return minHW + (maxHW - minHW) * eased;
+    }
     if (cp < b3) return maxHW;
     if (cp < b4) return maxHW - (maxHW - minHW) * (cp - b3) / (b4 - b3);
     return minHW;
   }
-
 
   function buildWaypoints() {
     wpts = [];
