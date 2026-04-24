@@ -569,60 +569,40 @@ footer a { color: var(--green); text-decoration: none; }
   var COLOR = '34,201,139';
   var CORE = '55,215,160';
   var t = 0;
-  var wpts = [];
-  var SECTION_H = 750;
   var SINE_PERIOD = 1500;
 
-  function buildWaypoints() {
-    wpts = [];
-    var totalH = Math.max(document.body.scrollHeight, H * 3);
-    var step = SECTION_H / 4;
-    var n = Math.ceil(totalH / step) + 4;
-    for (var i = 0; i < n; i++) {
-      var wy = (i - 1) * step;
-      wpts.push({ x: W*0.5 + Math.sin(wy * 2*Math.PI / SINE_PERIOD) * W*0.85, wy: wy });
-    }
-  }
+
 
   function resize() {
     W = canvas.width = window.innerWidth;
     H = canvas.height = window.innerHeight;
-    buildWaypoints();
   }
 
-  function spineInView(scrollY) {
-    var margin = H * 1.8;
-    var out = [];
-    for (var s = 0; s < wpts.length - 1; s++) {
-      var a = wpts[Math.max(0,s-1)], b = wpts[s], c = wpts[s+1], d = wpts[Math.min(wpts.length-1,s+2)];
-      if (c.wy < scrollY - margin || b.wy > scrollY + H + margin) continue;
-      for (var k = 0; k < 32; k++) {
-        var u = k/32, u2 = u*u, u3 = u2*u;
-        out.push({
-          x:  0.5*((2*b.x )+((-a.x +c.x )*u)+((2*a.x -5*b.x +4*c.x -d.x )*u2)+((-a.x +3*b.x -3*c.x +d.x )*u3)),
-          wy: 0.5*((2*b.wy)+((-a.wy+c.wy)*u)+((2*a.wy-5*b.wy+4*c.wy-d.wy)*u2)+((-a.wy+3*b.wy-3*c.wy+d.wy)*u3))
-        });
-      }
-    }
-    return out;
-  }
+
 
   function draw() {
     t++;
     var scrollY = window.scrollY;
 
-    for (var wi = 0; wi < wpts.length; wi++) {
-      var wy = wpts[wi].wy;
-      wpts[wi].x = W*0.5 + Math.sin(wy * 2*Math.PI / SINE_PERIOD) * W*0.85
-                 + Math.sin(t*0.0002 + wi*1.1) * W*0.012;
-    }
+
 
     ctx.fillStyle = '#070d18';
     ctx.fillRect(0, 0, W, H);
 
-    var pts = spineInView(scrollY);
-    if (pts.length < 4) { requestAnimationFrame(draw); return; }
-
+    // Direct high-res sine sampling — no kinks, guaranteed smooth
+    var margin = H * 0.5;
+    var yStart = scrollY - margin;
+    var yEnd   = scrollY + H + margin;
+    var STEPS  = 400;
+    var pts = [];
+    for (var i = 0; i <= STEPS; i++) {
+      var u  = i / STEPS;
+      var wy = yStart + u * (yEnd - yStart);
+      var x  = W * 0.5
+              + Math.sin(wy * 2 * Math.PI / SINE_PERIOD) * W * 0.85
+              + Math.sin(t * 0.0002 + wy * 0.00083) * W * 0.012;
+      pts.push({ x: x, wy: wy });
+    }
     // Sine-over-page-progress: hw follows 1.5 blooms across the full scroll distance.
     var scrollable = Math.max(1, document.body.scrollHeight - H);
     var pageProgress = Math.min(1, Math.max(0, scrollY / scrollable));
