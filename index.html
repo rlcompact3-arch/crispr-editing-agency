@@ -19,6 +19,7 @@
   --border: #e8e8e8;
   --radius: 14px;
   --shadow: 0 4px 24px rgba(0,0,0,0.08);
+  --section-hue: 0deg;
 }
 html { scroll-behavior: smooth; }
 body {
@@ -29,6 +30,52 @@ body {
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
 }
+
+/* ===== ANIMATED GRADIENT BACKGROUND ===== */
+.bg-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  transition: filter 2s ease;
+  filter: hue-rotate(var(--section-hue));
+}
+.orb-wrap {
+  position: absolute;
+  will-change: transform;
+}
+.orb {
+  border-radius: 50%;
+  filter: blur(80px);
+  display: block;
+}
+@keyframes drift1 {
+  0%, 100% { transform: translate(0px, 0px) scale(1); }
+  25%       { transform: translate(60px, -40px) scale(1.05); }
+  50%       { transform: translate(-30px, 80px) scale(0.95); }
+  75%       { transform: translate(80px, 40px) scale(1.02); }
+}
+@keyframes drift2 {
+  0%, 100% { transform: translate(0px, 0px) scale(1); }
+  33%       { transform: translate(-70px, 50px) scale(1.08); }
+  66%       { transform: translate(50px, -60px) scale(0.97); }
+}
+@keyframes drift3 {
+  0%, 100% { transform: translate(0px, 0px) scale(1); }
+  50%       { transform: translate(90px, -70px) scale(1.1); }
+}
+@keyframes drift4 {
+  0%, 100% { transform: translate(0px, 0px) scale(1); }
+  40%       { transform: translate(-50px, -80px) scale(0.95); }
+  80%       { transform: translate(70px, 60px) scale(1.05); }
+}
+@keyframes drift5 {
+  0%, 100% { transform: translate(0px, 0px) scale(1); }
+  30%       { transform: translate(40px, 90px) scale(1.03); }
+  70%       { transform: translate(-80px, -40px) scale(0.98); }
+}
+
 nav {
   position: sticky;
   top: 0;
@@ -58,7 +105,11 @@ nav {
   padding: 10px 22px; border-radius: 8px; font-size: 14px; font-weight: 700;
   cursor: pointer; text-decoration: none; transition: all 0.2s; border: none;
 }
-.btn-primary { background: linear-gradient(135deg, var(--green), var(--dark-green)); color: white; box-shadow: 0 4px 16px rgba(34,201,139,0.35); }
+.btn-primary {
+  background: linear-gradient(135deg, var(--green), var(--dark-green));
+  color: white;
+  box-shadow: 0 4px 16px rgba(34,201,139,0.35);
+}
 .btn-primary:hover { transform: translateY(-1px); }
 .btn-outline { background: transparent; color: var(--dark-green); border: 2px solid var(--green); }
 .btn-outline:hover { background: var(--green); color: white; }
@@ -74,10 +125,7 @@ nav {
 }
 .hero-parallax-bg {
   position: absolute;
-  top: -30%;
-  left: 0;
-  right: 0;
-  bottom: -30%;
+  top: -30%; left: 0; right: 0; bottom: -30%;
   background: linear-gradient(160deg, #f0fdf8 0%, #e6f9f3 50%, #d4f2e8 100%);
   z-index: 0;
   will-change: transform;
@@ -160,85 +208,27 @@ footer a { color: var(--green); text-decoration: none; }
 .gallery-item { background: white; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
 .gallery-caption { padding: 12px 16px; font-size: 13px; color: var(--text-muted); font-weight: 500; }
 .ba-slider {
-  position: relative;
-  overflow: hidden;
-  cursor: ew-resize;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: pan-y;
-  height: 220px;
-  background: #111;
+  position: relative; overflow: hidden; cursor: ew-resize;
+  user-select: none; -webkit-user-select: none;
+  touch-action: pan-y; height: 260px; background: #111;
 }
-.ba-before-img {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  object-fit: cover;
-  display: block;
-}
-.ba-after-wrap {
-  position: absolute;
-  top: 0; left: 0;
-  width: 50%; height: 100%;
-  overflow: hidden;
-  will-change: width;
-}
-.ba-after-img {
-  position: absolute;
-  top: 0; left: 0;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-.ba-divider {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 3px;
-  height: 100%;
-  background: rgba(255,255,255,0.92);
-  z-index: 4;
-  box-shadow: 0 0 8px rgba(0,0,0,0.4);
-  pointer-events: none;
-  will-change: left;
-}
+.ba-before-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.ba-after-wrap { position: absolute; top: 0; left: 0; width: 50%; height: 100%; overflow: hidden; will-change: width; }
+.ba-after-img { position: absolute; top: 0; left: 0; height: 100%; object-fit: cover; display: block; }
+.ba-divider { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 3px; height: 100%; background: rgba(255,255,255,0.92); z-index: 4; box-shadow: 0 0 8px rgba(0,0,0,0.4); pointer-events: none; will-change: left; }
 .ba-handle {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 42px; height: 42px;
-  background: white;
-  border-radius: 50%;
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  width: 42px; height: 42px; background: white; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 2px 14px rgba(0,0,0,0.28);
-  cursor: ew-resize;
-  border: 2px solid rgba(34,201,139,0.4);
+  box-shadow: 0 2px 14px rgba(0,0,0,0.28); cursor: ew-resize; border: 2px solid rgba(34,201,139,0.4);
 }
-.ba-label {
-  position: absolute;
-  top: 10px;
-  z-index: 5;
-  padding: 3px 8px;
-  border-radius: 4px;
-  font-size: 11px; font-weight: 700; letter-spacing: 1px;
-  text-transform: uppercase;
-  pointer-events: none;
-}
+.ba-label { position: absolute; top: 10px; z-index: 5; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; pointer-events: none; }
 .ba-label-b { left: 10px; background: rgba(0,0,0,0.55); color: white; }
 .ba-label-a { right: 10px; background: var(--green); color: white; }
 
 /* ===== SCROLL FADE-IN ===== */
-.fade-in {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
-}
-.fade-in.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
+.fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.5s ease-out, transform 0.5s ease-out; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
 .services-grid .fade-in:nth-child(1) { transition-delay: 0ms; }
 .services-grid .fade-in:nth-child(2) { transition-delay: 100ms; }
 .services-grid .fade-in:nth-child(3) { transition-delay: 200ms; }
@@ -247,8 +237,6 @@ footer a { color: var(--green); text-decoration: none; }
 .services-grid .fade-in:nth-child(6) { transition-delay: 500ms; }
 .gallery-grid .fade-in:nth-child(1) { transition-delay: 0ms; }
 .gallery-grid .fade-in:nth-child(2) { transition-delay: 150ms; }
-.gallery-grid .fade-in:nth-child(3) { transition-delay: 100ms; }
-.gallery-grid .fade-in:nth-child(4) { transition-delay: 250ms; }
 .steps .fade-in:nth-child(1) { transition-delay: 0ms; }
 .steps .fade-in:nth-child(2) { transition-delay: 100ms; }
 .steps .fade-in:nth-child(3) { transition-delay: 200ms; }
@@ -280,6 +268,30 @@ footer a { color: var(--green); text-decoration: none; }
 </style>
 </head>
 <body>
+
+<!-- Apple-style animated gradient orb background -->
+<div class="bg-canvas" id="bg-canvas">
+  <!-- Orb 1: brand green, upper left -->
+  <div class="orb-wrap" data-fy="0.05" style="top:-5%;left:-8%;">
+    <div class="orb" style="width:520px;height:520px;background:#22c98b;opacity:0.40;animation:drift1 20s ease-in-out infinite;"></div>
+  </div>
+  <!-- Orb 2: dark green, center right -->
+  <div class="orb-wrap" data-fy="-0.04" style="top:30%;left:70%;">
+    <div class="orb" style="width:460px;height:460px;background:#0d8a5e;opacity:0.35;animation:drift2 25s ease-in-out infinite;"></div>
+  </div>
+  <!-- Orb 3: light mint, lower center -->
+  <div class="orb-wrap" data-fy="0.03" style="top:60%;left:22%;">
+    <div class="orb" style="width:600px;height:600px;background:#a8f0d3;opacity:0.30;animation:drift3 30s ease-in-out infinite;"></div>
+  </div>
+  <!-- Orb 4: teal/cyan, upper right -->
+  <div class="orb-wrap" data-fy="-0.06" style="top:4%;left:62%;">
+    <div class="orb" style="width:420px;height:420px;background:#06b6d4;opacity:0.35;animation:drift4 35s ease-in-out infinite;"></div>
+  </div>
+  <!-- Orb 5: brand green small, lower left -->
+  <div class="orb-wrap" data-fy="0.07" style="top:72%;left:-4%;">
+    <div class="orb" style="width:320px;height:320px;background:#22c98b;opacity:0.30;animation:drift5 28s ease-in-out infinite;"></div>
+  </div>
+</div>
 
 <nav>
   <div class="nav-inner">
@@ -355,23 +367,7 @@ footer a { color: var(--green); text-decoration: none; }
     <p class="section-sub">Real edits from real listings. Drag the slider to compare before and after.</p>
     <div class="gallery-grid">
 
-      <div class="gallery-item fade-in">
-        <div class="ba-slider">
-          <img class="ba-before-img" src="https://lh3.googleusercontent.com/d/12p74pzuCRiNVXE1f3KSuTc_JvnuvFp7V" alt="Before editing" loading="lazy" />
-          <div class="ba-after-wrap">
-            <img class="ba-after-img" src="https://lh3.googleusercontent.com/d/1Q-s6WkF3V0E7aXFkNcBTfxNlnHDHKpX4" alt="After editing" loading="lazy" />
-          </div>
-          <div class="ba-divider">
-            <div class="ba-handle">
-              <svg width="20" height="14" viewBox="0 0 20 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 7L1 1.5v11L7 7z" fill="#0d8a5e"/><path d="M13 7l6-5.5v11L13 7z" fill="#0d8a5e"/></svg>
-            </div>
-          </div>
-          <span class="ba-label ba-label-b">Before</span>
-          <span class="ba-label ba-label-a">After</span>
-        </div>
-        <p class="gallery-caption">Interior HDR Blend</p>
-      </div>
-
+      <!-- Slider 1: Exterior Sky Replacement -->
       <div class="gallery-item fade-in">
         <div class="ba-slider">
           <img class="ba-before-img" src="https://lh3.googleusercontent.com/d/1GjS9gC5_GYoVdM7V2DXBIJbMFW4W5zJ5" alt="Before editing" loading="lazy" />
@@ -389,11 +385,12 @@ footer a { color: var(--green); text-decoration: none; }
         <p class="gallery-caption">Sky Replacement + Exterior</p>
       </div>
 
+      <!-- Slider 2: Interior HDR Blend -->
       <div class="gallery-item fade-in">
         <div class="ba-slider">
-          <img class="ba-before-img" src="https://lh3.googleusercontent.com/d/1QHUyFytmsCxkfepysPNmNCsDDCifkOwu" alt="Before editing" loading="lazy" />
+          <img class="ba-before-img" src="https://lh3.googleusercontent.com/d/12p74pzuCRiNVXE1f3KSuTc_JvnuvFp7V" alt="Before editing" loading="lazy" />
           <div class="ba-after-wrap">
-            <img class="ba-after-img" src="https://lh3.googleusercontent.com/d/1ZPKH_UWk6n4fbzlgZdVCYvNw7tYNoQf8" alt="After editing" loading="lazy" />
+            <img class="ba-after-img" src="https://lh3.googleusercontent.com/d/1Q-s6WkF3V0E7aXFkNcBTfxNlnHDHKpX4" alt="After editing" loading="lazy" />
           </div>
           <div class="ba-divider">
             <div class="ba-handle">
@@ -404,23 +401,6 @@ footer a { color: var(--green); text-decoration: none; }
           <span class="ba-label ba-label-a">After</span>
         </div>
         <p class="gallery-caption">Interior HDR Blend</p>
-      </div>
-
-      <div class="gallery-item fade-in">
-        <div class="ba-slider">
-          <img class="ba-before-img" src="https://lh3.googleusercontent.com/d/1aJZdlZh-Xrnec-zinXV_9IXnOU0-62B2" alt="Before editing" loading="lazy" />
-          <div class="ba-after-wrap">
-            <img class="ba-after-img" src="https://lh3.googleusercontent.com/d/1EwpnoQB87OhxRCHkuvyvOt69-9xeLRls" alt="After editing" loading="lazy" />
-          </div>
-          <div class="ba-divider">
-            <div class="ba-handle">
-              <svg width="20" height="14" viewBox="0 0 20 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 7L1 1.5v11L7 7z" fill="#0d8a5e"/><path d="M13 7l6-5.5v11L13 7z" fill="#0d8a5e"/></svg>
-            </div>
-          </div>
-          <span class="ba-label ba-label-b">Before</span>
-          <span class="ba-label ba-label-a">After</span>
-        </div>
-        <p class="gallery-caption">Pool + Dusk Edit</p>
       </div>
 
     </div>
@@ -508,8 +488,8 @@ footer a { color: var(--green); text-decoration: none; }
   function initSliders() {
     document.querySelectorAll('.ba-slider').forEach(function(slider) {
       var afterWrap = slider.querySelector('.ba-after-wrap');
-      var afterImg = slider.querySelector('.ba-after-img');
-      var divider = slider.querySelector('.ba-divider');
+      var afterImg  = slider.querySelector('.ba-after-img');
+      var divider   = slider.querySelector('.ba-divider');
       var pct = 50;
       var dragging = false;
 
@@ -517,14 +497,12 @@ footer a { color: var(--green); text-decoration: none; }
         var w = slider.offsetWidth;
         if (w > 0) afterImg.style.width = w + 'px';
       }
-
       function update(newPct) {
         pct = Math.max(5, Math.min(95, newPct));
         afterWrap.style.width = pct + '%';
-        divider.style.left = pct + '%';
+        divider.style.left    = pct + '%';
         syncImgWidth();
       }
-
       function clientXtoPct(clientX) {
         var rect = slider.getBoundingClientRect();
         return (clientX - rect.left) / rect.width * 100;
@@ -532,25 +510,12 @@ footer a { color: var(--green); text-decoration: none; }
 
       update(50);
       window.addEventListener('resize', function() { update(pct); }, { passive: true });
-
-      slider.addEventListener('mousedown', function(e) {
-        e.preventDefault();
-        dragging = true;
-        update(clientXtoPct(e.clientX));
-      });
-      document.addEventListener('mousemove', function(e) {
-        if (dragging) update(clientXtoPct(e.clientX));
-      });
-      document.addEventListener('mouseup', function() { dragging = false; });
-
-      slider.addEventListener('touchstart', function(e) {
-        dragging = true;
-        update(clientXtoPct(e.touches[0].clientX));
-      }, { passive: true });
-      slider.addEventListener('touchmove', function(e) {
-        if (dragging) update(clientXtoPct(e.touches[0].clientX));
-      }, { passive: true });
-      slider.addEventListener('touchend', function() { dragging = false; }, { passive: true });
+      slider.addEventListener('mousedown', function(e) { e.preventDefault(); dragging = true; update(clientXtoPct(e.clientX)); });
+      document.addEventListener('mousemove', function(e) { if (dragging) update(clientXtoPct(e.clientX)); });
+      document.addEventListener('mouseup',   function()  { dragging = false; });
+      slider.addEventListener('touchstart', function(e) { dragging = true; update(clientXtoPct(e.touches[0].clientX)); }, { passive: true });
+      slider.addEventListener('touchmove',  function(e) { if (dragging) update(clientXtoPct(e.touches[0].clientX)); }, { passive: true });
+      slider.addEventListener('touchend',   function()  { dragging = false; }, { passive: true });
     });
   }
 
@@ -563,10 +528,7 @@ footer a { color: var(--green); text-decoration: none; }
     }
     var obs = new IntersectionObserver(function(entries) {
       entries.forEach(function(entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          obs.unobserve(entry.target);
-        }
+        if (entry.isIntersecting) { entry.target.classList.add('visible'); obs.unobserve(entry.target); }
       });
     }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
     els.forEach(function(el) { obs.observe(el); });
@@ -579,15 +541,15 @@ footer a { color: var(--green); text-decoration: none; }
     var obs = new IntersectionObserver(function(entries) {
       entries.forEach(function(entry) {
         if (!entry.isIntersecting) return;
-        var el = entry.target;
-        var target = parseInt(el.getAttribute('data-target'), 10) || 0;
-        var prefix = el.getAttribute('data-prefix') || '';
-        var suffix = el.getAttribute('data-suffix') || '';
+        var el       = entry.target;
+        var target   = parseInt(el.getAttribute('data-target'), 10) || 0;
+        var prefix   = el.getAttribute('data-prefix') || '';
+        var suffix   = el.getAttribute('data-suffix') || '';
         var duration = 1500;
-        var start = null;
+        var start    = null;
         function step(ts) {
           if (!start) start = ts;
-          var p = Math.min((ts - start) / duration, 1);
+          var p    = Math.min((ts - start) / duration, 1);
           var ease = 1 - Math.pow(1 - p, 3);
           el.textContent = prefix + Math.round(ease * target) + suffix;
           if (p < 1) requestAnimationFrame(step);
@@ -604,23 +566,81 @@ footer a { color: var(--green); text-decoration: none; }
   function initParallax() {
     var bg = document.querySelector('.hero-parallax-bg');
     if (!bg) return;
+    function onScroll() { bg.style.transform = 'translateY(' + ((window.scrollY || window.pageYOffset) * 0.3) + 'px)'; }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+
+  /* ===== ORB SCROLL REACTIVITY ===== */
+  function initOrbScroll() {
+    var wraps = document.querySelectorAll('.orb-wrap');
+    if (!wraps.length) return;
+    var factors = [];
+    var i;
+    for (i = 0; i < wraps.length; i++) {
+      factors.push(parseFloat(wraps[i].getAttribute('data-fy') || '0.04'));
+    }
     function onScroll() {
-      var y = window.scrollY || window.pageYOffset;
-      bg.style.transform = 'translateY(' + (y * 0.3) + 'px)';
+      var sy = window.scrollY || window.pageYOffset;
+      for (i = 0; i < wraps.length; i++) {
+        wraps[i].style.transform = 'translateY(' + (sy * factors[i]).toFixed(1) + 'px)';
+      }
     }
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
   }
 
+  /* ===== SECTION ATMOSPHERE (hue-rotate on orb canvas) ===== */
+  function initSectionAtmosphere() {
+    var canvas = document.getElementById('bg-canvas');
+    if (!canvas || !('IntersectionObserver' in window)) return;
+    var sectionDefs = [
+      { sel: '.hero',           hue:  '0deg'  },
+      { sel: '#services',       hue:  '12deg' },
+      { sel: '#work',           hue: '-8deg'  },
+      { sel: '#how-it-works',   hue:  '8deg'  },
+      { sel: '#pricing',        hue: '-4deg'  },
+      { sel: '.trial-section',  hue:  '6deg'  }
+    ];
+    var obs = new IntersectionObserver(function(entries) {
+      var j;
+      for (j = 0; j < entries.length; j++) {
+        if (entries[j].isIntersecting) {
+          var k;
+          for (k = 0; k < sectionDefs.length; k++) {
+            if (entries[j].target.matches(sectionDefs[k].sel)) {
+              document.documentElement.style.setProperty('--section-hue', sectionDefs[k].hue);
+              break;
+            }
+          }
+        }
+      }
+    }, { threshold: 0.35 });
+    var m;
+    for (m = 0; m < sectionDefs.length; m++) {
+      var el = document.querySelector(sectionDefs[m].sel);
+      if (el) obs.observe(el);
+    }
+  }
+
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', function() {
-      initSliders(); initFadeIns(); initCounters(); initParallax();
+      initSliders();
+      initFadeIns();
+      initCounters();
+      initParallax();
+      initOrbScroll();
+      initSectionAtmosphere();
     });
   } else {
-    initSliders(); initFadeIns(); initCounters(); initParallax();
+    initSliders();
+    initFadeIns();
+    initCounters();
+    initParallax();
+    initOrbScroll();
+    initSectionAtmosphere();
   }
 })();
 </script>
-
 </body>
 </html>
