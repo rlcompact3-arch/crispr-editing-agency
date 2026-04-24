@@ -560,115 +560,115 @@ footer a { color: var(--green); text-decoration: none; }
   }
 
   function initBgCanvas() {
-    const canvas = document.getElementById('bg-canvas');
-    const ctx = canvas.getContext('2d');
-    let W, H;
-    let sectionData = [];
+    var canvas = document.getElementById('bg-canvas');
+    var ctx = canvas.getContext('2d');
+    canvas.style.position = 'fixed';
+    canvas.style.top = '0';
+    canvas.style.left = '0';
+    var W = 0, H = 0;
+    var COLOR = '34,201,139';
+    var CORE  = '55,215,160';
+    var t = 0;
+    var wpts = [];
 
-    function refreshSections() {
-      const els = document.querySelectorAll('section');
-      sectionData = [];
-      els.forEach(function(el, i) {
-        sectionData.push({ top: el.offsetTop, height: el.offsetHeight, dir: (i % 2 === 0) ? 1 : -1 });
-      });
+    function buildWaypoints() {
+      wpts = [];
+      var totalH = Math.max(document.body.scrollHeight, H * 3);
+      var step = 620;
+      var n = Math.ceil(totalH / step) + 3;
+      for (var i = 0; i < n; i++) {
+        wpts.push({ x: W * ((i % 2 === 0) ? 0.28 : 0.72), wy: (i - 1) * step });
+      }
     }
 
     function resize() {
-      W = canvas.width = window.innerWidth;
-      H = canvas.height = Math.max(document.body.scrollHeight, window.innerHeight * 3);
-      refreshSections();
+      W = canvas.width  = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+      buildWaypoints();
     }
 
-    // Per-section ribbon colors
-    const COLORS = ['34,201,139','34,155,210','34,201,139','55,215,160','34,201,139','34,155,210'];
-    const STEPS = 160;
-    let t = 0;
-
-    // Scroll progress 0→1 for each section's ribbon reveal
-    function getProgress(sec, scrollY, viewH, i) {
-      // Section 0 (hero) is always fully revealed on page load
-      if (i === 0) return 1.0;
-      // Others: reveal as section scrolls into the viewport
-      const revealStart = sec.top - viewH * 0.85;
-      const revealEnd   = sec.top + sec.height * 0.35;
-      return Math.max(0, Math.min(1, (scrollY - revealStart) / (revealEnd - revealStart)));
-    }
-
-    function drawRibbon(sec, color, prog, idx) {
-      if (prog <= 0) return;
-
-      // Gentle undulation — moves the control points very slowly
-      const undY = Math.sin(t * 0.00025 + idx * 0.95) * 35;
-
-      // Ribbon sits across the vertical center of its section
-      const midY = sec.top + sec.height * 0.44;
-
-      // Bezier endpoints span the full viewport width (plus bleed off edges)
-      let p0, p1, p2, p3;
-      if (sec.dir === 1) {
-        // Sweeps left → right with a gentle S-bow
-        p0 = { x: -80,      y: midY - 15 };
-        p1 = { x: W * 0.30, y: midY - 80 + undY };
-        p2 = { x: W * 0.70, y: midY + 80 - undY };
-        p3 = { x: W + 80,   y: midY + 15 };
-      } else {
-        // Sweeps right → left
-        p0 = { x: W + 80,   y: midY - 15 };
-        p1 = { x: W * 0.70, y: midY - 80 + undY };
-        p2 = { x: W * 0.30, y: midY + 80 - undY };
-        p3 = { x: -80,      y: midY + 15 };
+    function spineInView(scrollY) {
+      var margin = H * 1.6;
+      var out = [];
+      for (var s = 0; s < wpts.length - 1; s++) {
+        var a = wpts[Math.max(0, s-1)], b = wpts[s], c = wpts[s+1], d = wpts[Math.min(wpts.length-1, s+2)];
+        if (c.wy < scrollY - margin || b.wy > scrollY + H + margin) continue;
+        for (var k = 0; k < 32; k++) {
+          var u = k/32, u2 = u*u, u3 = u2*u;
+          out.push({
+            x:  0.5*((2*b.x )+((-a.x +c.x )*u)+((2*a.x -5*b.x +4*c.x -d.x )*u2)+((-a.x +3*b.x -3*c.x +d.x )*u3)),
+            wy: 0.5*((2*b.wy)+((-a.wy+c.wy)*u)+((2*a.wy-5*b.wy+4*c.wy-d.wy)*u2)+((-a.wy+3*b.wy-3*c.wy+d.wy)*u3))
+          });
+        }
       }
-
-      // Sample bezier up to prog fraction (divide by STEPS to get the right portion)
-      const drawCount = Math.ceil(prog * STEPS);
-      if (drawCount < 2) return;
-      const pts = [];
-      for (let k = 0; k <= drawCount; k++) {
-        const u = k / STEPS;
-        const c = 1 - u;
-        pts.push({
-          x: c*c*c*p0.x + 3*c*c*u*p1.x + 3*c*u*u*p2.x + u*u*u*p3.x,
-          y: c*c*c*p0.y + 3*c*c*u*p1.y + 3*c*u*u*p2.y + u*u*u*p3.y
-        });
-      }
-
-      function stroke(lw, op) {
-        ctx.beginPath();
-        pts.forEach(function(pt, j) { if (j === 0) ctx.moveTo(pt.x, pt.y); else ctx.lineTo(pt.x, pt.y); });
-        ctx.strokeStyle = 'rgba(' + color + ',' + op + ')';
-        ctx.lineWidth = lw;
-        ctx.lineCap = 'round';
-        ctx.lineJoin = 'round';
-        ctx.stroke();
-      }
-
-      const baseOp = 0.07 + 0.03 * prog;
-      stroke(150, baseOp);          // thick silk-ribbon body
-      stroke(50,  baseOp * 0.55);   // softer inner highlight
+      return out;
     }
 
     function draw() {
       t++;
-      const scrollY = window.scrollY;
-      const viewH   = window.innerHeight;
+      var scrollY = window.scrollY;
+      var ctr = scrollY + H * 0.5;
+      var minHW = 20, maxHW = H * 0.52;
 
       ctx.fillStyle = '#070d18';
       ctx.fillRect(0, 0, W, H);
-      canvas.style.transform = 'translateY(' + (-scrollY * 0.25) + 'px)';
 
-      sectionData.forEach(function(sec, i) {
-        drawRibbon(sec, COLORS[i] || '34,201,139', getProgress(sec, scrollY, viewH, i), i);
-      });
+      for (var wi = 0; wi < wpts.length; wi++) {
+        wpts[wi].x = W * ((wi%2===0)?0.28:0.72) + Math.sin(t*0.00028 + wi*1.4)*W*0.055;
+      }
+
+      var pts = spineInView(scrollY);
+      if (pts.length < 4) { requestAnimationFrame(draw); return; }
+
+      var L = [], R = [];
+      for (var pi = 0; pi < pts.length; pi++) {
+        var nx = pts[Math.min(pi+1,pts.length-1)], pv = pts[Math.max(pi-1,0)];
+        var tx = nx.x - pv.x, ty = nx.wy - pv.wy, tl = Math.sqrt(tx*tx+ty*ty)||1;
+        var perpx = -ty/tl, perpy = tx/tl;
+        var dd = (pts[pi].wy - ctr)/(H*0.60);
+        var hw = minHW + (maxHW - minHW)*Math.exp(-dd*dd*2.3);
+        var cx = pts[pi].x, cy = pts[pi].wy - scrollY;
+        L.push({x: cx+perpx*hw, y: cy+perpy*hw});
+        R.push({x: cx-perpx*hw, y: cy-perpy*hw});
+      }
+
+      function band(sc) {
+        ctx.beginPath();
+        for (var i = 0; i < pts.length; i++) {
+          var sx = pts[i].x, sy = pts[i].wy - scrollY;
+          var x = sx+(L[i].x-sx)*sc, y = sy+(L[i].y-sy)*sc;
+          if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+        }
+        for (var j = pts.length-1; j >= 0; j--) {
+          var sx = pts[j].x, sy = pts[j].wy - scrollY;
+          ctx.lineTo(sx+(R[j].x-sx)*sc, sy+(R[j].y-sy)*sc);
+        }
+        ctx.closePath();
+      }
+
+      band(6.0); ctx.fillStyle='rgba('+COLOR+',0.009)'; ctx.fill();
+      band(3.0); ctx.fillStyle='rgba('+COLOR+',0.016)'; ctx.fill();
+      band(1.5); ctx.fillStyle='rgba('+COLOR+',0.028)'; ctx.fill();
+      band(1.0); ctx.fillStyle='rgba('+COLOR+',0.042)'; ctx.fill();
+      band(0.45);ctx.fillStyle='rgba('+COLOR+',0.075)'; ctx.fill();
+      band(0.18);ctx.fillStyle='rgba('+CORE +',0.120)'; ctx.fill();
+
+      ctx.save();
+      band(1.0); ctx.clip();
+      var g = ctx.createRadialGradient(W*0.5,H*0.5,0, W*0.5,H*0.5, H*0.62);
+      g.addColorStop(0,   'rgba('+COLOR+',0.20)');
+      g.addColorStop(0.3, 'rgba('+COLOR+',0.07)');
+      g.addColorStop(1,   'rgba('+COLOR+',0)');
+      ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+      ctx.restore();
 
       requestAnimationFrame(draw);
     }
 
-    refreshSections();
     resize();
     window.addEventListener('resize', resize);
     draw();
   }
-
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', function() {
