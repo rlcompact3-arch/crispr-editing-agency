@@ -569,79 +569,111 @@ footer a { color: var(--green); text-decoration: none; }
     H = canvas.height = Math.max(document.body.scrollHeight, window.innerHeight * 3);
   }
 
-  const lines = [
-    { bx: 0.05, amp: 0.12, freq: 1.8, phase: 0.0,  speed: 0.25, opacity: 0.18, width: 1.2 },
-    { bx: 0.12, amp: 0.08, freq: 2.2, phase: 1.1,  speed: 0.18, opacity: 0.12, width: 0.8 },
-    { bx: 0.22, amp: 0.15, freq: 1.5, phase: 2.3,  speed: 0.22, opacity: 0.22, width: 1.5 },
-    { bx: 0.33, amp: 0.10, freq: 2.8, phase: 0.7,  speed: 0.30, opacity: 0.14, width: 0.9 },
-    { bx: 0.42, amp: 0.18, freq: 1.2, phase: 3.5,  speed: 0.20, opacity: 0.28, width: 1.8 },
-    { bx: 0.50, amp: 0.09, freq: 3.1, phase: 1.8,  speed: 0.15, opacity: 0.16, width: 1.0 },
-    { bx: 0.58, amp: 0.16, freq: 1.7, phase: 4.2,  speed: 0.26, opacity: 0.24, width: 1.6 },
-    { bx: 0.67, amp: 0.11, freq: 2.4, phase: 0.4,  speed: 0.19, opacity: 0.15, width: 1.1 },
-    { bx: 0.75, amp: 0.14, freq: 1.9, phase: 2.9,  speed: 0.23, opacity: 0.20, width: 1.3 },
-    { bx: 0.83, amp: 0.07, freq: 2.6, phase: 1.5,  speed: 0.28, opacity: 0.13, width: 0.9 },
-    { bx: 0.90, amp: 0.12, freq: 1.4, phase: 3.8,  speed: 0.17, opacity: 0.19, width: 1.4 },
-    { bx: 0.96, amp: 0.06, freq: 2.0, phase: 0.9,  speed: 0.21, opacity: 0.11, width: 0.8 },
-    { bx: 0.30, amp: 0.20, freq: 1.0, phase: 5.1,  speed: 0.12, opacity: 0.35, width: 2.2 },
-    { bx: 0.72, amp: 0.18, freq: 0.9, phase: 2.2,  speed: 0.14, opacity: 0.32, width: 2.0 },
+  // Get section Y positions from the DOM (where lines should swing into)
+  function getSectionYs() {
+    const sels = ['.hero', '.services', '.gallery-section', '.pricing', '.process', '.testimonials', '.cta-section', 'footer'];
+    const ys = [];
+    sels.forEach(sel => {
+      const el = document.querySelector(sel);
+      if (el) ys.push(el.offsetTop);
+    });
+    return ys;
+  }
+
+  // Each line has a base X (fraction of width) and a gentle drift speed
+  // Lines are mostly vertical but get a bezier "swing" at section boundaries
+  const lineConfigs = [
+    { bx: 0.04, drift: 0.008, phase: 0.0,   opacity: 0.20, width: 1.0 },
+    { bx: 0.11, drift: 0.006, phase: 0.8,   opacity: 0.13, width: 0.7 },
+    { bx: 0.19, drift: 0.010, phase: 1.6,   opacity: 0.25, width: 1.4 },
+    { bx: 0.28, drift: 0.007, phase: 2.4,   opacity: 0.15, width: 0.8 },
+    { bx: 0.38, drift: 0.009, phase: 3.2,   opacity: 0.30, width: 1.8 },
+    { bx: 0.48, drift: 0.005, phase: 4.0,   opacity: 0.16, width: 0.9 },
+    { bx: 0.55, drift: 0.011, phase: 0.5,   opacity: 0.22, width: 1.2 },
+    { bx: 0.63, drift: 0.007, phase: 1.3,   opacity: 0.14, width: 0.8 },
+    { bx: 0.70, drift: 0.009, phase: 2.1,   opacity: 0.28, width: 1.6 },
+    { bx: 0.78, drift: 0.006, phase: 2.9,   opacity: 0.17, width: 1.0 },
+    { bx: 0.86, drift: 0.010, phase: 3.7,   opacity: 0.21, width: 1.3 },
+    { bx: 0.93, drift: 0.008, phase: 4.5,   opacity: 0.12, width: 0.7 },
   ];
 
   let t = 0;
-  let scrollY = 0;
-
+  let scrollRatio = 0;
   window.addEventListener('scroll', () => {
-    scrollY = window.scrollY;
-    canvas.style.transform = `translateY(${-scrollY * 0.3}px)`;
+    scrollRatio = window.scrollY / Math.max(1, document.body.scrollHeight - window.innerHeight);
+    canvas.style.transform = `translateY(${-window.scrollY * 0.3}px)`;
   }, { passive: true });
 
-  function drawLine(line) {
-    const steps = 120;
+  function drawLine(cfg, sectionYs) {
+    const segments = 200;
+
+    const baseX = (cfg.bx + Math.sin(t * cfg.drift + cfg.phase) * 0.04) * W;
+
     ctx.beginPath();
-    for (let i = 0; i <= steps; i++) {
-      const frac = i / steps;
-      const y = frac * H;
-      const scrollInfluence = (scrollY / Math.max(document.body.scrollHeight, 1)) * 0.06;
-      const x = (line.bx + scrollInfluence * (line.bx - 0.5)) * W
-        + Math.sin(frac * Math.PI * 2 * line.freq + line.phase + t * line.speed) * line.amp * W;
+
+    for (let i = 0; i <= segments; i++) {
+      const y = (i / segments) * H;
+
+      let xOffset = Math.sin(t * cfg.drift * 0.5 + cfg.phase + i * 0.03) * 12;
+
+      sectionYs.forEach(secY => {
+        const dist = y - secY;
+        if (dist >= -60 && dist <= 180) {
+          const progress = dist / 180;
+          const pullStrength = Math.sin(progress * Math.PI) * 0.35 * W;
+          const direction = baseX < W / 2 ? 1 : -1;
+          xOffset += pullStrength * direction;
+        }
+      });
+
+      const x = baseX + xOffset;
       i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
     }
-    ctx.strokeStyle = `rgba(34,201,139,${line.opacity})`;
-    ctx.lineWidth = line.width;
+
+    const scrollFocusY = scrollRatio * H;
+    const lineGrad = ctx.createLinearGradient(0, scrollFocusY - H*0.3, 0, scrollFocusY + H*0.5);
+    lineGrad.addColorStop(0, `rgba(34,201,139,0)`);
+    lineGrad.addColorStop(0.2, `rgba(34,201,139,${cfg.opacity})`);
+    lineGrad.addColorStop(0.5, `rgba(34,201,139,${cfg.opacity * 1.4})`);
+    lineGrad.addColorStop(0.8, `rgba(34,201,139,${cfg.opacity})`);
+    lineGrad.addColorStop(1, `rgba(34,201,139,0)`);
+
+    ctx.strokeStyle = lineGrad;
+    ctx.lineWidth = cfg.width;
     ctx.stroke();
   }
 
-  function drawSectionConnectors() {
-    const sections = document.querySelectorAll('section, .hero, .services, .gallery-section, .pricing, .cta-section');
-    sections.forEach(sec => {
-      const top = sec.offsetTop;
-      if (top > 0 && top < H) {
-        const grad = ctx.createLinearGradient(0, top, W, top);
-        grad.addColorStop(0, 'rgba(34,201,139,0)');
-        grad.addColorStop(0.2, 'rgba(34,201,139,0.08)');
-        grad.addColorStop(0.5, 'rgba(34,201,139,0.15)');
-        grad.addColorStop(0.8, 'rgba(34,201,139,0.08)');
-        grad.addColorStop(1, 'rgba(34,201,139,0)');
-        ctx.strokeStyle = grad;
-        ctx.lineWidth = 0.5;
-        ctx.beginPath();
-        ctx.moveTo(0, top);
-        ctx.lineTo(W, top);
-        ctx.stroke();
-      }
-    });
-  }
-
   function draw() {
-    t += 0.008;
+    t += 0.006;
+
     ctx.fillStyle = '#070d18';
     ctx.fillRect(0, 0, W, H);
-    const centerGrad = ctx.createRadialGradient(W/2, H*0.3, 0, W/2, H*0.3, W*0.7);
-    centerGrad.addColorStop(0, 'rgba(13,138,94,0.06)');
-    centerGrad.addColorStop(1, 'rgba(0,0,0,0)');
-    ctx.fillStyle = centerGrad;
+
+    const depthGrad = ctx.createRadialGradient(W*0.5, H*0.25, 0, W*0.5, H*0.25, W*0.8);
+    depthGrad.addColorStop(0, 'rgba(13,138,94,0.05)');
+    depthGrad.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = depthGrad;
     ctx.fillRect(0, 0, W, H);
-    drawSectionConnectors();
-    lines.forEach(drawLine);
+
+    const sectionYs = getSectionYs();
+
+    sectionYs.forEach(secY => {
+      const hGrad = ctx.createLinearGradient(0, secY, W, secY);
+      hGrad.addColorStop(0,    'rgba(34,201,139,0)');
+      hGrad.addColorStop(0.15, 'rgba(34,201,139,0.10)');
+      hGrad.addColorStop(0.5,  'rgba(34,201,139,0.18)');
+      hGrad.addColorStop(0.85, 'rgba(34,201,139,0.10)');
+      hGrad.addColorStop(1,    'rgba(34,201,139,0)');
+      ctx.strokeStyle = hGrad;
+      ctx.lineWidth = 0.6;
+      ctx.beginPath();
+      ctx.moveTo(0, secY);
+      ctx.lineTo(W, secY);
+      ctx.stroke();
+    });
+
+    lineConfigs.forEach(cfg => drawLine(cfg, sectionYs));
+
     requestAnimationFrame(draw);
   }
 
