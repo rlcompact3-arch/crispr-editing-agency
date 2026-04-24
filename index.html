@@ -610,27 +610,24 @@ footer a { color: var(--green); text-decoration: none; }
     var hw = hwMin + (hwMax - hwMin) * Math.pow(Math.sin(pageProgress * Math.PI * 1.5), 2);
     var f = Math.max(0, Math.min(1, (hw - hwMin) / (hwMax - hwMin)));
 
-    var L = [], R = [];
-    for (var pi = 0; pi < pts.length; pi++) {
-      var nx = pts[Math.min(pi+1, pts.length-1)], pv = pts[Math.max(pi-1, 0)];
-      var tx = nx.x - pv.x, ty = nx.wy - pv.wy, tl = Math.sqrt(tx*tx+ty*ty)||1;
-      var perpx = -ty/tl, perpy = tx/tl;
-      var cx = pts[pi].x, cy = pts[pi].wy - scrollY;
-      L.push({ x: cx + perpx*hw, y: cy + perpy*hw });
-      R.push({ x: cx - perpx*hw, y: cy - perpy*hw });
-    }
-
-    function band(sc) {
-      ctx.beginPath();
+    // Filled perpendicular band -- no lineWidth/stroke, no V-shape at sine reversals
+    function drawBand(sc) {
+      var upper = [], lower = [];
       for (var i = 0; i < pts.length; i++) {
+        var i0 = Math.max(0, i-1), i1 = Math.min(pts.length-1, i+1);
+        var tx = pts[i1].x - pts[i0].x;
+        var ty = pts[i1].wy - pts[i0].wy;
+        var len = Math.sqrt(tx*tx + ty*ty) || 1;
+        var px = -ty/len * hw * sc;
+        var py =  tx/len * hw * sc;
         var sx = pts[i].x, sy = pts[i].wy - scrollY;
-        var x = sx+(L[i].x-sx)*sc, y = sy+(L[i].y-sy)*sc;
-        if (i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+        upper.push([sx + px, sy + py]);
+        lower.push([sx - px, sy - py]);
       }
-      for (var j = pts.length-1; j >= 0; j--) {
-        var sx = pts[j].x, sy = pts[j].wy - scrollY;
-        ctx.lineTo(sx+(R[j].x-sx)*sc, sy+(R[j].y-sy)*sc);
-      }
+      ctx.beginPath();
+      ctx.moveTo(upper[0][0], upper[0][1]);
+      for (var j = 0; j < upper.length; j++) ctx.lineTo(upper[j][0], upper[j][1]);
+      for (var j = lower.length-1; j >= 0; j--) ctx.lineTo(lower[j][0], lower[j][1]);
       ctx.closePath();
     }
 
@@ -639,15 +636,20 @@ footer a { color: var(--green); text-decoration: none; }
       ctx.fillRect(0, 0, W, H);
     }
 
-    band(6.0); ctx.fillStyle='rgba('+COLOR+','+(0.005*(1-f*0.8))+')'; ctx.fill();
-    band(3.0); ctx.fillStyle='rgba('+COLOR+','+(0.009*(1-f*0.6))+')'; ctx.fill();
-    band(1.5); ctx.fillStyle='rgba('+COLOR+','+(0.015+f*0.02)+')'; ctx.fill();
-    band(1.0); ctx.fillStyle='rgba('+COLOR+','+(0.022+f*0.08)+')'; ctx.fill();
-    band(0.45);ctx.fillStyle='rgba('+COLOR+','+(0.040+f*0.10)+')'; ctx.fill();
-    band(0.18);ctx.fillStyle='rgba('+CORE+','+(0.065+f*0.15)+')'; ctx.fill();
+    // Clip to viewport: prevents off-screen polygon edges from re-entering
+    // as diagonal streaks (the V/arrowhead artefact at sine reversal points)
+    ctx.save();
+    ctx.beginPath(); ctx.rect(0, 0, W, H); ctx.clip();
+    drawBand(6.0); ctx.fillStyle='rgba('+COLOR+','+(0.005*(1-f*0.8))+')'; ctx.fill();
+    drawBand(3.0); ctx.fillStyle='rgba('+COLOR+','+(0.009*(1-f*0.6))+')'; ctx.fill();
+    drawBand(1.5); ctx.fillStyle='rgba('+COLOR+','+(0.015+f*0.02)+')'; ctx.fill();
+    drawBand(1.0); ctx.fillStyle='rgba('+COLOR+','+(0.022+f*0.08)+')'; ctx.fill();
+    drawBand(0.45);ctx.fillStyle='rgba('+COLOR+','+(0.040+f*0.10)+')'; ctx.fill();
+    drawBand(0.18);ctx.fillStyle='rgba('+CORE+','+(0.065+f*0.15)+')'; ctx.fill();
+    ctx.restore();
 
     ctx.save();
-    band(1.0); ctx.clip();
+    drawBand(1.0); ctx.clip();
     var g = ctx.createRadialGradient(W*0.5, H*0.5, 0, W*0.5, H*0.5, H*(0.62+f*0.3));
     g.addColorStop(0,   'rgba('+COLOR+','+(0.10+f*0.15)+')');
     g.addColorStop(0.4, 'rgba('+COLOR+','+(0.04+f*0.06)+')');
