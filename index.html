@@ -610,6 +610,9 @@ footer a { color: var(--green); text-decoration: none; }
     var hw = hwMin + (hwMax - hwMin) * Math.pow(Math.sin(pageProgress * Math.PI * 1.5), 2);
     var f = Math.max(0, Math.min(1, (hw - hwMin) / (hwMax - hwMin)));
 
+    // Clear each frame -- prevents fill accumulation / black canvas at full bloom
+    ctx.clearRect(0, 0, W, H);
+
     // Draw sine spine path -- no polygon vertices, no geometric edge artifacts
     function drawSpine() {
       ctx.beginPath();
@@ -619,18 +622,10 @@ footer a { color: var(--green); text-decoration: none; }
       }
     }
 
-    // Trail fade
-    if (f > 0.02) {
-      ctx.fillStyle = 'rgba(10,24,16,' + (f*0.04) + ')';
-      ctx.fillRect(0, 0, W, H);
-    }
-
     if (f >= 1.0) {
-      // Full bloom: pure solid fill, no ribbon drawn at all
       ctx.fillStyle = 'rgba(10,26,18,0.92)';
       ctx.fillRect(0, 0, W, H);
     } else {
-      // Ribbon: blur + stroke (no filled polygon = no geometric edge/V-point artifacts)
       ctx.save();
       ctx.lineJoin = 'round'; ctx.lineCap = 'round';
       ctx.filter = 'blur(' + Math.round(hw * 0.30) + 'px)';
@@ -647,8 +642,6 @@ footer a { color: var(--green); text-decoration: none; }
       drawSpine(); ctx.lineWidth = hw * 0.16; ctx.strokeStyle = 'rgba(' + CORE + ',' + (0.065 + f * 0.15) + ')'; ctx.stroke();
       ctx.filter = 'none';
       ctx.restore();
-
-      // Near full bloom: fade ribbon out under solid fill overlay
       if (f > 0.75) {
         var solidAlpha = (f - 0.75) / 0.25;
         ctx.fillStyle = 'rgba(10,26,18,' + (solidAlpha * 0.92) + ')';
