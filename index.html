@@ -560,127 +560,67 @@ footer a { color: var(--green); text-decoration: none; }
   }
 
   function initBgCanvas() {
-  const canvas = document.getElementById('bg-canvas');
-  const ctx = canvas.getContext('2d');
-  let W, H;
-
-  function resize() {
-    W = canvas.width = window.innerWidth;
-    H = canvas.height = Math.max(document.body.scrollHeight, window.innerHeight * 3);
-  }
-
-  // Get section Y positions from the DOM (where lines should swing into)
-  function getSectionYs() {
-    const sels = ['.hero', '.services', '.gallery-section', '.pricing', '.process', '.testimonials', '.cta-section', 'footer'];
-    const ys = [];
-    sels.forEach(sel => {
-      const el = document.querySelector(sel);
-      if (el) ys.push(el.offsetTop);
-    });
-    return ys;
-  }
-
-  // Each line has a base X (fraction of width) and a gentle drift speed
-  // Lines are mostly vertical but get a bezier "swing" at section boundaries
-  const lineConfigs = [
-    { bx: 0.04, drift: 0.008, phase: 0.0,   opacity: 0.20, width: 1.0 },
-    { bx: 0.11, drift: 0.006, phase: 0.8,   opacity: 0.13, width: 0.7 },
-    { bx: 0.19, drift: 0.010, phase: 1.6,   opacity: 0.25, width: 1.4 },
-    { bx: 0.28, drift: 0.007, phase: 2.4,   opacity: 0.15, width: 0.8 },
-    { bx: 0.38, drift: 0.009, phase: 3.2,   opacity: 0.30, width: 1.8 },
-    { bx: 0.48, drift: 0.005, phase: 4.0,   opacity: 0.16, width: 0.9 },
-    { bx: 0.55, drift: 0.011, phase: 0.5,   opacity: 0.22, width: 1.2 },
-    { bx: 0.63, drift: 0.007, phase: 1.3,   opacity: 0.14, width: 0.8 },
-    { bx: 0.70, drift: 0.009, phase: 2.1,   opacity: 0.28, width: 1.6 },
-    { bx: 0.78, drift: 0.006, phase: 2.9,   opacity: 0.17, width: 1.0 },
-    { bx: 0.86, drift: 0.010, phase: 3.7,   opacity: 0.21, width: 1.3 },
-    { bx: 0.93, drift: 0.008, phase: 4.5,   opacity: 0.12, width: 0.7 },
-  ];
-
-  let t = 0;
-  let scrollRatio = 0;
-  window.addEventListener('scroll', () => {
-    scrollRatio = window.scrollY / Math.max(1, document.body.scrollHeight - window.innerHeight);
-    canvas.style.transform = `translateY(${-window.scrollY * 0.3}px)`;
-  }, { passive: true });
-
-  function drawLine(cfg, sectionYs) {
-    const segments = 200;
-
-    const baseX = (cfg.bx + Math.sin(t * cfg.drift + cfg.phase) * 0.04) * W;
-
-    ctx.beginPath();
-
-    for (let i = 0; i <= segments; i++) {
-      const y = (i / segments) * H;
-
-      let xOffset = Math.sin(t * cfg.drift * 0.5 + cfg.phase + i * 0.03) * 12;
-
-      sectionYs.forEach(secY => {
-        const dist = y - secY;
-        if (dist >= -60 && dist <= 180) {
-          const progress = dist / 180;
-          const pullStrength = Math.sin(progress * Math.PI) * 0.35 * W;
-          const direction = baseX < W / 2 ? 1 : -1;
-          xOffset += pullStrength * direction;
-        }
-      });
-
-      const x = baseX + xOffset;
-      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+    let W, H;
+    function resize() {
+      W = canvas.width = window.innerWidth;
+      H = canvas.height = Math.max(document.body.scrollHeight, window.innerHeight * 3);
     }
-
-    const scrollFocusY = scrollRatio * H;
-    const lineGrad = ctx.createLinearGradient(0, scrollFocusY - H*0.3, 0, scrollFocusY + H*0.5);
-    lineGrad.addColorStop(0, `rgba(34,201,139,0)`);
-    lineGrad.addColorStop(0.2, `rgba(34,201,139,${cfg.opacity})`);
-    lineGrad.addColorStop(0.5, `rgba(34,201,139,${cfg.opacity * 1.4})`);
-    lineGrad.addColorStop(0.8, `rgba(34,201,139,${cfg.opacity})`);
-    lineGrad.addColorStop(1, `rgba(34,201,139,0)`);
-
-    ctx.strokeStyle = lineGrad;
-    ctx.lineWidth = cfg.width;
-    ctx.stroke();
-  }
-
-  function draw() {
-    t += 0.006;
-
-    ctx.fillStyle = '#070d18';
-    ctx.fillRect(0, 0, W, H);
-
-    const depthGrad = ctx.createRadialGradient(W*0.5, H*0.25, 0, W*0.5, H*0.25, W*0.8);
-    depthGrad.addColorStop(0, 'rgba(13,138,94,0.05)');
-    depthGrad.addColorStop(1, 'rgba(0,0,0,0)');
-    ctx.fillStyle = depthGrad;
-    ctx.fillRect(0, 0, W, H);
-
-    const sectionYs = getSectionYs();
-
-    sectionYs.forEach(secY => {
-      const hGrad = ctx.createLinearGradient(0, secY, W, secY);
-      hGrad.addColorStop(0,    'rgba(34,201,139,0)');
-      hGrad.addColorStop(0.15, 'rgba(34,201,139,0.10)');
-      hGrad.addColorStop(0.5,  'rgba(34,201,139,0.18)');
-      hGrad.addColorStop(0.85, 'rgba(34,201,139,0.10)');
-      hGrad.addColorStop(1,    'rgba(34,201,139,0)');
-      ctx.strokeStyle = hGrad;
-      ctx.lineWidth = 0.6;
+    let scrollOffsetY = 0;
+    window.addEventListener('scroll', function() {
+      scrollOffsetY = window.scrollY;
+      canvas.style.transform = 'translateY(' + (-scrollOffsetY * 0.25) + 'px)';
+    }, { passive: true });
+    const ribbons = [
+      { color: '34,201,139', op: 0.11, lw: 2.2, spd: 0.00035, ph: 0.0 },
+      { color: '34,170,200', op: 0.08, lw: 1.8, spd: 0.00028, ph: 2.1 },
+      { color: '34,201,139', op: 0.14, lw: 2.8, spd: 0.00045, ph: 4.2 },
+      { color: '60,210,170', op: 0.07, lw: 1.5, spd: 0.00022, ph: 1.1 }
+    ];
+    let t = 0;
+    function drawRibbon(rib) {
+      const s = rib.spd * t;
+      const p = rib.ph;
+      const x0 = W * (0.15 + 0.10 * Math.sin(s + p));
+      const y0 = -50;
+      const cp1x = W * (0.75 + 0.20 * Math.cos(s * 1.3 + p + 0.7));
+      const cp1y = H * (0.28 + 0.05 * Math.sin(s * 0.8 + p));
+      const cp2x = W * (0.20 + 0.20 * Math.sin(s * 0.9 + p + 1.5));
+      const cp2y = H * (0.65 + 0.05 * Math.cos(s * 1.1 + p + 0.5));
+      const x3 = W * (0.65 + 0.15 * Math.cos(s * 0.7 + p + 2.0));
+      const y3 = H + 50;
       ctx.beginPath();
-      ctx.moveTo(0, secY);
-      ctx.lineTo(W, secY);
+      ctx.moveTo(x0, y0);
+      ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x3, y3);
+      const grad = ctx.createLinearGradient(0, 0, 0, H);
+      grad.addColorStop(0,    'rgba(' + rib.color + ',0)');
+      grad.addColorStop(0.1,  'rgba(' + rib.color + ',' + (rib.op * 0.5) + ')');
+      grad.addColorStop(0.35, 'rgba(' + rib.color + ',' + rib.op + ')');
+      grad.addColorStop(0.65, 'rgba(' + rib.color + ',' + (rib.op * 0.9) + ')');
+      grad.addColorStop(0.9,  'rgba(' + rib.color + ',' + (rib.op * 0.4) + ')');
+      grad.addColorStop(1,    'rgba(' + rib.color + ',0)');
+      ctx.strokeStyle = grad;
+      ctx.lineWidth = rib.lw;
       ctx.stroke();
-    });
-
-    lineConfigs.forEach(cfg => drawLine(cfg, sectionYs));
-
-    requestAnimationFrame(draw);
+    }
+    function draw() {
+      t++;
+      ctx.fillStyle = '#070d18';
+      ctx.fillRect(0, 0, W, H);
+      const glow = ctx.createRadialGradient(W * 0.5, H * 0.18, 0, W * 0.5, H * 0.18, W * 0.65);
+      glow.addColorStop(0, 'rgba(13,138,94,0.04)');
+      glow.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = glow;
+      ctx.fillRect(0, 0, W, H);
+      ribbons.forEach(drawRibbon);
+      requestAnimationFrame(draw);
+    }
+    resize();
+    window.addEventListener('resize', resize);
+    draw();
   }
 
-  resize();
-  window.addEventListener('resize', resize);
-  draw();
-}
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', function() {
