@@ -67,7 +67,7 @@
     .pricing-volume { font-size: 14px; color: var(--text-muted); margin-bottom: 28px; padding: 10px 16px; background: var(--bg-gray); border-radius: 8px; }
     .pricing-features { list-style: none; text-align: left; margin-bottom: 28px; }
     .pricing-features li { font-size: 14px; color: var(--text-muted); padding: 6px 0; display: flex; align-items: center; gap: 8px; }
-    .pricing-features li::before { content: 'checkmark'; color: var(--green); font-weight: 700; flex-shrink: 0; }
+    .pricing-features li::before { content: ''; }
     .trial-section { background: linear-gradient(135deg, var(--green), var(--dark-green)); padding: 80px 24px; text-align: center; position: relative; overflow: hidden; }
     .trial-section h2 { font-size: clamp(28px, 4vw, 44px); font-weight: 900; color: white; font-family: 'Arial Black', Arial, sans-serif; letter-spacing: -0.5px; margin-bottom: 16px; }
     .trial-section p { font-size: 18px; color: rgba(255,255,255,0.85); max-width: 500px; margin: 0 auto 36px; }
@@ -177,11 +177,11 @@
       <div class="pricing-unit">per photo</div>
       <div class="pricing-volume">Any volume</div>
       <ul class="pricing-features">
-        <li>All editing services included</li>
-        <li>24-hour turnaround</li>
-        <li>Free revisions</li>
-        <li>Full-res JPEG delivery</li>
-        <li>Monthly PayPal invoice</li>
+        <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="8" r="8" fill="#22c98b"/><path d="M4.5 8l2.5 2.5 4.5-4.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>All editing services included</li>
+        <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="8" r="8" fill="#22c98b"/><path d="M4.5 8l2.5 2.5 4.5-4.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>24-hour turnaround</li>
+        <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="8" r="8" fill="#22c98b"/><path d="M4.5 8l2.5 2.5 4.5-4.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Free revisions</li>
+        <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="8" r="8" fill="#22c98b"/><path d="M4.5 8l2.5 2.5 4.5-4.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Full-res JPEG delivery</li>
+        <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="8" r="8" fill="#22c98b"/><path d="M4.5 8l2.5 2.5 4.5-4.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Monthly PayPal invoice</li>
       </ul>
       <a href="mailto:crispreditingagency@gmail.com?subject=Free Trial Request" class="btn btn-primary" style="width:100%;">Start Free Trial</a>
     </div>
@@ -198,14 +198,22 @@
     <div class="footer-inner">
       <div class="footer-logo">
         <svg width="36" height="36" viewBox="0 0 110 110" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="ft-bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#22c98b"/><stop offset="100%" style="stop-color:#0d8a5e"/></linearGradient>
-            <linearGradient id="ft-cs" x1="78" y1="34" x2="78" y2="76" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#ffffff"/><stop offset="100%" stop-color="#b8ebd6" stop-opacity="0.75"/></linearGradient>
-          </defs>
-          <rect x="0" y="0" width="110" height="110" rx="22" fill="url(#ft-bg)"/>
-          <path d="M 78,34 A 30,30 0 1,0 78,76" fill="none" stroke="url(#ft-cs)" stroke-width="12" stroke-linecap="round"/>
-          <circle cx="78" cy="34" r="6.5" fill="white"/><circle cx="78" cy="34" r="3" fill="#22c98b"/><circle cx="78" cy="76" r="3.5" fill="white" opacity="0.35"/>
-        </svg>
+  <defs>
+    <linearGradient id="ft-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#22c98b"/>
+      <stop offset="100%" style="stop-color:#0d8a5e"/>
+    </linearGradient>
+    <linearGradient id="ft-cs" x1="78" y1="34" x2="78" y2="76" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#b8ebd6" stop-opacity="0.75"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="110" height="110" rx="22" fill="url(#ft-bg)"/>
+  <path d="M 78,34 A 30,30 0 1,0 78,76" fill="none" stroke="url(#ft-cs)" stroke-width="12" stroke-linecap="round"/>
+  <circle cx="78" cy="34" r="6.5" fill="white"/>
+  <circle cx="78" cy="34" r="3" fill="#22c98b"/>
+  <circle cx="78" cy="76" r="3.5" fill="white" opacity="0.35"/>
+</svg>
         <div class="footer-logo-text"><div class="brand">CRISPR</div><div class="sub">Editing Agency</div></div>
       </div>
       <p>Professional real estate photo editing.<br/>Fast, affordable, and built for photographers who want to scale.</p>
