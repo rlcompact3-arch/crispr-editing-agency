@@ -609,44 +609,44 @@ footer a { color: var(--green); text-decoration: none; }
     var hwMin = 15, hwMax = H * 1.2;
     var hw = hwMin + (hwMax - hwMin) * Math.pow(Math.sin(pageProgress * Math.PI * 1.5), 2);
     var f = Math.max(0, Math.min(1, (hw - hwMin) / (hwMax - hwMin)));
+    var t = hw / hwMax;
 
-    // Clear each frame -- prevents fill accumulation / black canvas at full bloom
     ctx.clearRect(0, 0, W, H);
 
-    // Draw sine spine path -- no polygon vertices, no geometric edge artifacts
     function drawSpine() {
+      var n = pts.length;
+      if (n < 2) return;
       ctx.beginPath();
-      for (var i = 0; i < pts.length; i++) {
-        var sx = pts[i].x, sy = pts[i].wy - scrollY;
-        if (i === 0) ctx.moveTo(sx, sy); else ctx.lineTo(sx, sy);
-      }
+      var dx0 = pts[1].x - pts[0].x, dy0 = pts[1].wy - pts[0].wy;
+      var l0 = Math.sqrt(dx0*dx0+dy0*dy0)||1;
+      ctx.moveTo(pts[0].x - dx0/l0*220, pts[0].wy - scrollY - dy0/l0*220);
+      for (var i = 0; i < n; i++) ctx.lineTo(pts[i].x, pts[i].wy - scrollY);
+      var dxN = pts[n-1].x - pts[n-2].x, dyN = pts[n-1].wy - pts[n-2].wy;
+      var lN = Math.sqrt(dxN*dxN+dyN*dyN)||1;
+      ctx.lineTo(pts[n-1].x + dxN/lN*220, pts[n-1].wy - scrollY + dyN/lN*220);
     }
 
-    if (f >= 1.0) {
-      ctx.fillStyle = 'rgba(10,26,18,0.92)';
+    if (t > 0.85) {
+      var solidA = (t - 0.85) / 0.15;
+      ctx.fillStyle = 'rgba(10,26,18,' + (solidA * 0.94) + ')';
       ctx.fillRect(0, 0, W, H);
     } else {
+      var rT = t / 0.85;
+      var blur0 = Math.round(8 + 172 * rT * rT);
       ctx.save();
-      ctx.lineJoin = 'round'; ctx.lineCap = 'round';
-      ctx.filter = 'blur(' + Math.round(hw * 0.30) + 'px)';
-      drawSpine(); ctx.lineWidth = hw * 5.5; ctx.strokeStyle = 'rgba(' + COLOR + ',' + (0.005 * (1 - f * 0.8)) + ')'; ctx.stroke();
-      ctx.filter = 'blur(' + Math.round(hw * 0.18) + 'px)';
-      drawSpine(); ctx.lineWidth = hw * 2.8; ctx.strokeStyle = 'rgba(' + COLOR + ',' + (0.009 * (1 - f * 0.6)) + ')'; ctx.stroke();
-      ctx.filter = 'blur(' + Math.round(hw * 0.10) + 'px)';
-      drawSpine(); ctx.lineWidth = hw * 1.4; ctx.strokeStyle = 'rgba(' + COLOR + ',' + (0.015 + f * 0.02) + ')'; ctx.stroke();
-      ctx.filter = 'blur(' + Math.round(Math.max(2, hw * 0.05)) + 'px)';
-      drawSpine(); ctx.lineWidth = hw * 0.9; ctx.strokeStyle = 'rgba(' + COLOR + ',' + (0.022 + f * 0.08) + ')'; ctx.stroke();
-      ctx.filter = 'blur(' + Math.round(Math.max(1, hw * 0.025)) + 'px)';
-      drawSpine(); ctx.lineWidth = hw * 0.40; ctx.strokeStyle = 'rgba(' + COLOR + ',' + (0.040 + f * 0.10) + ')'; ctx.stroke();
-      ctx.filter = 'blur(2px)';
-      drawSpine(); ctx.lineWidth = hw * 0.16; ctx.strokeStyle = 'rgba(' + CORE + ',' + (0.065 + f * 0.15) + ')'; ctx.stroke();
+      ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+      ctx.filter = 'blur(' + Math.min(200, Math.round(blur0 * 2.5)) + 'px)';
+      drawSpine(); ctx.lineWidth = hw * 4.5; ctx.strokeStyle = 'rgba(' + COLOR + ',' + (0.005*(1-rT*0.6)) + ')'; ctx.stroke();
+      ctx.filter = 'blur(' + Math.min(120, Math.round(blur0 * 1.5)) + 'px)';
+      drawSpine(); ctx.lineWidth = hw * 2.5; ctx.strokeStyle = 'rgba(' + COLOR + ',' + (0.010+rT*0.010) + ')'; ctx.stroke();
+      ctx.filter = 'blur(' + blur0 + 'px)';
+      drawSpine(); ctx.lineWidth = hw * 1.3; ctx.strokeStyle = 'rgba(' + COLOR + ',' + (0.018+rT*0.022) + ')'; ctx.stroke();
+      ctx.filter = 'blur(' + Math.round(Math.max(4, blur0 * 0.45)) + 'px)';
+      drawSpine(); ctx.lineWidth = hw * 0.65; ctx.strokeStyle = 'rgba(' + COLOR + ',' + (0.032+rT*0.050) + ')'; ctx.stroke();
+      ctx.filter = 'blur(' + Math.round(Math.max(2, blur0 * 0.18)) + 'px)';
+      drawSpine(); ctx.lineWidth = hw * 0.25; ctx.strokeStyle = 'rgba(' + CORE + ',' + (0.055+rT*0.090) + ')'; ctx.stroke();
       ctx.filter = 'none';
       ctx.restore();
-      if (f > 0.75) {
-        var solidAlpha = (f - 0.75) / 0.25;
-        ctx.fillStyle = 'rgba(10,26,18,' + (solidAlpha * 0.92) + ')';
-        ctx.fillRect(0, 0, W, H);
-      }
     }
 
     requestAnimationFrame(draw);
