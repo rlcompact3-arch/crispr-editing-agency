@@ -574,7 +574,7 @@ footer a { color: var(--green); text-decoration: none; }
   var SINE_PERIOD = 1500;
 
   function ease(x) {
-    return x < 0.5 ? 4*x*x*x : 1 - Math.pow(-2*x+2, 3)/2;
+    return (1 - Math.cos(x * Math.PI)) / 2;
   }
 
   function sectionFill(sCenterWY, scrollY) {
@@ -582,7 +582,7 @@ footer a { color: var(--green); text-decoration: none; }
     var viewCenter = scrollY + H * 0.5;
     var p = (viewCenter - (sCenterWY - half)) / SECTION_H;
     if (p <= 0 || p >= 1) return 0;
-    var raw = p < 0.3 ? p/0.3 : p <= 0.7 ? 1.0 : (1.0-p)/0.3;
+    var raw = p < 0.4 ? p/0.4 : p <= 0.6 ? 1.0 : (1.0-p)/0.4;
     return ease(Math.max(0, Math.min(1, raw)));
   }
 
@@ -670,22 +670,22 @@ footer a { color: var(--green); text-decoration: none; }
     }
 
     if (f > 0.02) {
-      ctx.fillStyle = 'rgba(10,24,16,' + (f*0.82) + ')';
+      ctx.fillStyle = 'rgba(10,24,16,' + (f*0.04) + ')';
       ctx.fillRect(0, 0, W, H);
     }
 
-    band(6.0); ctx.fillStyle='rgba('+COLOR+','+(0.009*(1-f*0.8))+')'; ctx.fill();
-    band(3.0); ctx.fillStyle='rgba('+COLOR+','+(0.016*(1-f*0.6))+')'; ctx.fill();
-    band(1.5); ctx.fillStyle='rgba('+COLOR+','+(0.028+f*0.04)+')'; ctx.fill();
-    band(1.0); ctx.fillStyle='rgba('+COLOR+','+(0.042+f*0.15)+')'; ctx.fill();
-    band(0.45);ctx.fillStyle='rgba('+COLOR+','+(0.075+f*0.20)+')'; ctx.fill();
-    band(0.18);ctx.fillStyle='rgba('+CORE+','+(0.120+f*0.30)+')'; ctx.fill();
+    band(6.0); ctx.fillStyle='rgba('+COLOR+','+(0.005*(1-f*0.8))+')'; ctx.fill();
+    band(3.0); ctx.fillStyle='rgba('+COLOR+','+(0.009*(1-f*0.6))+')'; ctx.fill();
+    band(1.5); ctx.fillStyle='rgba('+COLOR+','+(0.015+f*0.02)+')'; ctx.fill();
+    band(1.0); ctx.fillStyle='rgba('+COLOR+','+(0.022+f*0.08)+')'; ctx.fill();
+    band(0.45);ctx.fillStyle='rgba('+COLOR+','+(0.040+f*0.10)+')'; ctx.fill();
+    band(0.18);ctx.fillStyle='rgba('+CORE+','+(0.065+f*0.15)+')'; ctx.fill();
 
     ctx.save();
     band(1.0); ctx.clip();
     var g = ctx.createRadialGradient(W*0.5, H*0.5, 0, W*0.5, H*0.5, H*(0.62+f*0.3));
-    g.addColorStop(0,   'rgba('+COLOR+','+(0.20+f*0.35)+')');
-    g.addColorStop(0.4, 'rgba('+COLOR+','+(0.07+f*0.12)+')');
+    g.addColorStop(0,   'rgba('+COLOR+','+(0.10+f*0.15)+')');
+    g.addColorStop(0.4, 'rgba('+COLOR+','+(0.04+f*0.06)+')');
     g.addColorStop(1,   'rgba('+COLOR+',0)');
     ctx.fillStyle = g;
     ctx.fillRect(0, 0, W, H);
