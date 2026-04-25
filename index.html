@@ -107,7 +107,7 @@ nav {
   max-width: 800px;
   margin: 0 auto 20px;
   font-family: 'Arial Black', Arial, sans-serif;
-  text-shadow: var(--ts-head);
+  text-shadow: none;
 }
 .hero h1 span {
   background: linear-gradient(135deg, var(--green), var(--dark-green));
@@ -187,11 +187,11 @@ nav {
 }
 .step h3 {
   font-size: 16px; font-weight: 700; margin-bottom: 8px; color: var(--text);
-  text-shadow: var(--ts-head);
+  text-shadow: 0 0 20px #070d18, 0 0 40px #070d18, 0 2px 4px #000;
 }
 .step p {
   font-size: 14px; color: var(--text-muted); line-height: 1.6;
-  text-shadow: var(--ts-body);
+  text-shadow: 0 0 20px #070d18, 0 0 40px #070d18, 0 2px 4px #000;
 }
 /* ===== PRICING ===== */
 .pricing-section { padding: 80px 24px; background: transparent; }
@@ -241,6 +241,8 @@ nav {
   padding: 28px 24px;
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
+  position: relative;
+  z-index: 1;
 }
 .turnaround-inner {
   max-width: 1100px; margin: 0 auto;
