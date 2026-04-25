@@ -609,12 +609,10 @@ footer a { color: var(--green); text-decoration: none; }
     var hwMin = 15, hwMax = H * 1.2;
     var hw = hwMin + (hwMax - hwMin) * Math.pow(Math.sin(pageProgress * Math.PI * 1.5), 2);
     var f = Math.max(0, Math.min(1, (hw - hwMin) / (hwMax - hwMin)));
-    var t = hw / hwMax;
+    var rT = hw / hwMax;
 
-    ctx.clearRect(0, 0, W, H);
-
-    if (t > 0.85) {
-      var solidA = (t - 0.85) / 0.15;
+    if (rT > 0.85) {
+      var solidA = (rT - 0.85) / 0.15;
       ctx.fillStyle = 'rgba(10,26,18,' + (solidA * 0.94) + ')';
       ctx.fillRect(0, 0, W, H);
     } else {
@@ -628,7 +626,7 @@ footer a { color: var(--green); text-decoration: none; }
           var frac = si2 / (STROKES - 1);
           var ofs  = (frac - 0.5) * hw;
           var fall = 1 - Math.abs(frac - 0.5) * 2;
-          ctx.strokeStyle = 'rgba(' + COLOR + ',' + (0.04 * fall * t + 0.005 * fall) + ')';
+          ctx.strokeStyle = 'rgba(' + COLOR + ',' + (0.04 * fall * rT + 0.005 * fall) + ')';
           ctx.beginPath();
           var edx0 = pts[1].x - pts[0].x, edy0 = pts[1].wy - pts[0].wy;
           var el0  = Math.sqrt(edx0*edx0 + edy0*edy0) || 1;
