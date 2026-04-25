@@ -626,7 +626,7 @@ footer a { color: var(--green); text-decoration: none; }
           var frac = si2 / (STROKES - 1);
           var ofs  = (frac - 0.5) * hw;
           var fall = 1 - Math.abs(frac - 0.5) * 2;
-          ctx.strokeStyle = 'rgba(' + COLOR + ',' + (0.04 * fall * rT + 0.005 * fall) + ')';
+          ctx.strokeStyle = 'rgba(' + COLOR + ',' + (fall * (0.25 + 0.15 * rT) + 0.04 * rT) + ')';
           ctx.beginPath();
           var edx0 = pts[1].x - pts[0].x, edy0 = pts[1].wy - pts[0].wy;
           var el0  = Math.sqrt(edx0*edx0 + edy0*edy0) || 1;
