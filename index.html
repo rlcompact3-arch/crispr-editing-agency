@@ -353,6 +353,54 @@ footer a { color: var(--green); text-decoration: none; }
   .section-sub { text-align: center; margin-left: auto; margin-right: auto; }
   .process-section .section-sub { text-align: center; }
 }
+
+/* FAQ Section */
+.faq-section {
+  padding: 100px 0;
+}
+.faq-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 32px;
+  margin-top: 48px;
+}
+.faq-item {
+  background: rgba(7,13,24,0.80);
+  border: 1px solid rgba(34,201,139,0.15);
+  border-radius: 12px;
+  padding: 28px;
+}
+.faq-item h3 {
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  text-shadow: var(--ts-head);
+}
+.faq-item p {
+  color: rgba(255,255,255,0.7);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  text-shadow: var(--ts-body);
+}
+/* Footer Nav */
+.footer-nav {
+  display: flex;
+  gap: 24px;
+  margin: 16px 0;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.footer-nav a {
+  color: rgba(255,255,255,0.5);
+  text-decoration: none;
+  font-size: 0.85rem;
+  transition: color 0.2s;
+}
+.footer-nav a:hover {
+  color: #22c98b;
+}
+
 </style>
 </head>
 <body>
@@ -384,8 +432,8 @@ footer a { color: var(--green); text-decoration: none; }
 
 <section class="hero">
   <div class="hero-badge"><span class="dot"></span>10 photos edited free &#8212; no commitment</div>
-  <h1>Real Estate Photos<br/><span>Edited to Perfection</span></h1>
-  <p>Sky replacements, HDR blending, color correction, and object removal &#8212; delivered in 24 hours for just $1 per photo.</p>
+  <h1>Your Shoots. Back Polished.</h1>
+  <p>$1 per photo. Delivered in 24 hours. Sky replacement, HDR blending, color correction, object removal — all handled.</p>
   <div class="hero-cta">
     <a href="mailto:crispreditingagency@gmail.com?subject=Free%20Trial%20Request%20%E2%80%94%2010%20Photos&body=Hi%2C%20I%27d%20like%20to%20try%20the%2010%20free%20photo%20edits.%20Attaching%20my%20RAW%2FJPEG%20files%20now." class="btn btn-primary btn-lg">Start Free Trial</a>
     <a href="#how-it-works" class="btn btn-outline btn-lg">See How It Works</a>
@@ -410,7 +458,7 @@ footer a { color: var(--green); text-decoration: none; }
 <section class="section" id="services">
   <div class="section-inner">
     <div class="section-label">What We Do</div>
-    <h2 class="section-title">Everything Your Listings Need</h2>
+    <h2 class="section-title">Every Edit. One Price.</h2>
     <p class="section-sub">We handle every type of real estate photo edit so your listings look their absolute best.</p>
     <div class="services-grid">
       <div class="service-card fade-in"><div class="service-icon">&#127780;</div><h3>Sky Replacement</h3><p>Dull, overcast skies swapped for bright blue or dramatic sunset every time.</p></div>
@@ -492,7 +540,7 @@ footer a { color: var(--green); text-decoration: none; }
     <div class="steps">
       <div class="step fade-in"><div class="step-num">1</div><h3>Send Your Photos</h3><p>Email or WeTransfer your RAW or JPEG files. Tell us your preferred style &#8212; bright and airy, dark and moody, true-to-life.</p></div>
       <div class="step fade-in"><div class="step-num">2</div><h3>We Edit</h3><p>Our team handles sky replacements, HDR blending, color grading, and any cleanup &#8212; all within 24 hours.</p></div>
-      <div class="step fade-in"><div class="step-num">3</div><h3>Review and Tweak</h3><p>You get full-res JPEGs back. Not happy with something? We revise until it is right, no extra charge.</p></div>
+      <div class="step fade-in"><div class="step-num">3</div><h3>Revisions Until It’s Right</h3><p>You get full-res JPEGs back. Not happy with something? We revise until it is right, no extra charge.</p></div>
       <div class="step fade-in"><div class="step-num">4</div><h3>Scale Up</h3><p>Like what you see? Add more photos anytime. Same flat rate of $1 per photo, no matter the volume.</p></div>
     </div>
   </div>
@@ -520,11 +568,44 @@ footer a { color: var(--green); text-decoration: none; }
   </div>
 </section>
 
+<section class="faq-section" id="faq">
+  <div class="container">
+    <div class="section-label">FAQ</div>
+    <h2 class="section-title">Common Questions</h2>
+    <div class="faq-grid">
+      <div class="faq-item">
+        <h3>How do I submit my photos?</h3>
+        <p>Email your RAW or JPEG files directly to crispreditingagency@gmail.com, or send a WeTransfer link. Include your preferred style — bright and airy, dark and moody, true-to-life — and any specific notes per shot.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What’s the turnaround time?</h3>
+        <p>Standard orders are delivered within 24 hours. Large batches (100+ photos) may take up to 48 hours. We’ll let you know upfront if your order needs extra time.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What if I shoot 200 photos on a weekend?</h3>
+        <p>No problem — we handle volume orders regularly. Just send them over and we’ll get them back to you polished and ready. Pricing stays flat at $1 per photo regardless of volume.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What if I don’t like the edits?</h3>
+        <p>We offer free revisions until you’re satisfied. If your first 10 free trial photos don’t impress you, you owe nothing. For paid orders, we’ll redo any shots that miss the mark.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How does billing work?</h3>
+        <p>We send a monthly invoice via PayPal for all photos edited that month. No upfront payment required — you pay after delivery.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What file formats do you accept?</h3>
+        <p>RAW files from any major camera brand (Canon CR2/CR3, Nikon NEF, Sony ARW, etc.) and JPEGs. We return edited JPEGs at full resolution, ready to deliver to your clients.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="trial-section" id="free-trial">
   <div style="position:relative;z-index:1;" class="fade-in">
     <h2>Try It Free. Zero Risk.</h2>
-    <p>Send us 10 of your photos and see the difference. If you do not love the results, you owe us nothing.</p>
-    <a href="mailto:crispreditingagency@gmail.com?subject=Free%20Trial%20Request%20%E2%80%94%2010%20Photos&body=Hi%2C%20I%27d%20like%20to%20try%20the%2010%20free%20photo%20edits.%20Attaching%20my%20RAW%2FJPEG%20files%20now." class="btn btn-white">Get 10 Photos Edited Free</a>
+    <p>Send us 10 of your photos and see the difference. If you’re not wowed, you owe us nothing.</p>
+    <a href="mailto:crispreditingagency@gmail.com?subject=Free%20Trial%20Request%20%E2%80%94%2010%20Photos&body=Hi%2C%20I%27d%20like%20to%20try%20the%2010%20free%20photo%20edits.%20Attaching%20my%20RAW%2FJPEG%20files%20now." class="btn btn-primary">Get 10 Photos Edited Free</a>
     <p class="trial-note">Email your photos to crispreditingagency@gmail.com &#8212; RAW or JPEG accepted</p>
   </div>
 </section>
@@ -551,9 +632,16 @@ footer a { color: var(--green); text-decoration: none; }
       </svg>
       <div class="footer-logo-text"><div class="brand">CRISPR</div><div class="sub">Editing Agency</div></div>
     </div>
-    <p>Professional real estate photo editing.<br/>Fast, affordable, and built for photographers who want to scale.</p>
+    <p>Consistent edits. $1 per photo. Back in 24 hours.</p>
     <p style="margin-top:12px;"><a href="mailto:crispreditingagency@gmail.com">crispreditingagency@gmail.com</a></p>
-    <p class="footer-copy">&#169; 2026 Crispr Editing Agency. All rights reserved.</p>
+    <nav class="footer-nav">
+  <a href="#services">Services</a>
+  <a href="#work">Work</a>
+  <a href="#process">How It Works</a>
+  <a href="#pricing">Pricing</a>
+  <a href="#faq">FAQ</a>
+</nav>
+<p class="footer-copy">&#169; 2026 Crispr Editing Agency. All rights reserved.</p>
   </div>
 </footer>
 
