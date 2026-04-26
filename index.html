@@ -385,8 +385,15 @@ footer a { color: var(--green); text-decoration: none; }
         <defs>
           <linearGradient id="nav-bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#22c98b"/><stop offset="100%" style="stop-color:#0d8a5e"/></linearGradient>
           <linearGradient id="nav-cs" x1="78" y1="34" x2="78" y2="76" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#ffffff"/><stop offset="100%" stop-color="#b8ebd6" stop-opacity="0.75"/></linearGradient>
+          <pattern id="nav-s" patternUnits="userSpaceOnUse" width="9.05" height="9.05">
+            <path d="M-1,1 l2,-2 M0,9.05 l9.05,-9.05 M8.05,10.05 l2,-2" stroke="white" stroke-opacity="0.04" stroke-width="2.25"/>
+          </pattern>
+          <clipPath id="nav-c"><rect width="110" height="110" rx="22"/></clipPath>
         </defs>
-        <rect x="0" y="0" width="110" height="110" rx="22" fill="url(#nav-bg)"/>
+        <g clip-path="url(#nav-c)">
+          <rect width="110" height="110" fill="url(#nav-bg)"/>
+          <rect width="110" height="110" fill="url(#nav-s)"/>
+        </g>
         <path d="M 78,34 A 30,30 0 1,0 78,76" fill="none" stroke="url(#nav-cs)" stroke-width="12" stroke-linecap="round"/>
         <circle cx="78" cy="34" r="6.5" fill="white"/><circle cx="78" cy="34" r="3" fill="#22c98b"/><circle cx="78" cy="76" r="3.5" fill="white" opacity="0.35"/>
       </svg>
@@ -406,7 +413,7 @@ footer a { color: var(--green); text-decoration: none; }
 <section class="hero">
   <div class="hero-badge"><span class="dot"></span>10 photos edited free &#8212; no commitment</div>
   <h1>Your Shoots. Back Polished.</h1>
-  <p>$1 per photo. Delivered in 24 hours. Sky replacement, HDR blending, color correction, object removal — all handled.</p>
+  <p>$1 per photo. Delivered in 24 hours. Sky replacement, HDR blending, color correction, object removal â all handled.</p>
   <div class="hero-cta">
     <a href="mailto:hello@crispreditingagency.com?subject=Free%20Trial%20Request%20%E2%80%94%2010%20Photos&body=Hi%2C%20I%27d%20like%20to%20try%20the%2010%20free%20photo%20edits.%20Attaching%20my%20RAW%2FJPEG%20files%20now." class="btn btn-primary btn-lg">Start Free Trial</a>
     <a href="#how-it-works" class="btn btn-outline btn-lg">See How It Works</a>
@@ -564,7 +571,7 @@ footer a { color: var(--green); text-decoration: none; }
     <div class="steps">
       <div class="step fade-in"><div class="step-num">1</div><h3>Send Your Photos</h3><p>Email or WeTransfer your RAW or JPEG files. Tell us your preferred style &#8212; bright and airy, dark and moody, true-to-life.</p></div>
       <div class="step fade-in"><div class="step-num">2</div><h3>We Edit</h3><p>Our team handles sky replacements, HDR blending, color grading, and any cleanup &#8212; all within 24 hours.</p></div>
-      <div class="step fade-in"><div class="step-num">3</div><h3>Revisions Until It’s Right</h3><p>You get full-res JPEGs back. Not happy with something? We revise until it is right, no extra charge.</p></div>
+      <div class="step fade-in"><div class="step-num">3</div><h3>Revisions Until Itâs Right</h3><p>You get full-res JPEGs back. Not happy with something? We revise until it is right, no extra charge.</p></div>
       <div class="step fade-in"><div class="step-num">4</div><h3>Scale Up</h3><p>Like what you see? Add more photos anytime. Same flat rate of $1 per photo, no matter the volume.</p></div>
     </div>
   </div>
@@ -596,7 +603,7 @@ footer a { color: var(--green); text-decoration: none; }
 <section class="trial-section" id="free-trial">
   <div style="position:relative;z-index:1;" class="fade-in">
     <h2>Try It Free. Zero Risk.</h2>
-    <p>Send us 10 of your photos and see the difference. If you’re not wowed, you owe us nothing.</p>
+    <p>Send us 10 of your photos and see the difference. If youâre not wowed, you owe us nothing.</p>
     <a href="mailto:hello@crispreditingagency.com?subject=Free%20Trial%20Request%20%E2%80%94%2010%20Photos&body=Hi%2C%20I%27d%20like%20to%20try%20the%2010%20free%20photo%20edits.%20Attaching%20my%20RAW%2FJPEG%20files%20now." class="btn btn-primary">Get 10 Photos Edited Free</a>
     <p class="trial-note">Email your photos to hello@crispreditingagency.com &#8212; RAW or JPEG accepted</p>
   </div>
