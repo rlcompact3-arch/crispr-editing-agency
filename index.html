@@ -147,8 +147,8 @@ nav {
   text-shadow: var(--ts-body);
 }
 /* ===== SERVICES ===== */
-.services-grid {
-    justify-content: center; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 48px; }
+.services-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin-top: 48px; }
+.service-card { flex: 0 1 calc(33.333% - 14px); min-width: 260px; }
 .service-card {
   background: rgba(7, 13, 24, 0.80);
   backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
@@ -346,6 +346,7 @@ footer a { color: var(--green); text-decoration: none; }
   .hero-stats { gap: 28px; }
   .section, .process-section, .pricing-section, .trial-section { padding: 60px 20px; }
   .services-grid { grid-template-columns: repeat(2, 1fr); }
+  .service-card { flex-basis: calc(50% - 10px); }
 }
 @media (max-width: 480px) {
   .hero-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 20px 32px; justify-items: center; }
@@ -568,7 +569,7 @@ footer a { color: var(--green); text-decoration: none; }
         <div class="section-label">About Crispr</div>
         <h2 class="section-title">Who We Are</h2>
         <p class="section-sub">Hi, I'm Mike. I started Crispr Editing Agency to help real estate photographers spend less time editing and more time shooting. We work with a small team of professional editors to deliver consistent, listing-ready photos with fast turnaround times.</p>
-        <p class="section-sub" style="margin-top:16px;">No contracts, no minimums, no corporate pricing. Just consistent edits at $1 a photo, delivered fast.</p>
+        <p class="section-sub" style="margin-top:16px;">No lock-in, no minimums, no corporate pricing. Just consistent edits at $1 a photo, delivered fast.</p>
       </div>
     </section>
 
@@ -576,7 +577,7 @@ footer a { color: var(--green); text-decoration: none; }
   <div class="section-inner">
     <div class="section-label">Process</div>
     <h2 class="section-title">Dead Simple to Get Started</h2>
-    <p class="section-sub">No contracts, no complicated onboarding. Just send your photos and get them back better.</p>
+    <p class="section-sub">No complicated onboarding. Just send your photos and get them back better.</p>
     <div class="steps">
       <div class="step fade-in"><div class="step-num">1</div><h3>Send Your Photos</h3><p>Upload your RAW or JPEG files using the link above. We'll have them back to you within 24 hours.</p></div>
       <div class="step fade-in"><div class="step-num">2</div><h3>We Edit</h3><p>Our team handles sky replacements, HDR blending, color grading, and any cleanup &#8212; all within 24 hours.</p></div>
