@@ -6,6 +6,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Crispr Editing Agency &#8212; Real Estate Photo Editing</title>
 <meta name="description" content="Professional real estate photo editing. Sky replacements, HDR blending, color correction, object removal. $1/photo. 24-hour turnaround. Try 10 photos free." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
@@ -21,12 +24,12 @@
   --radius: 14px;
   --shadow: 0 4px 24px rgba(0,0,0,0.3);
   /* Reusable text-shadow tokens */
-  --ts-head: 0 0 20px rgba(7,13,24,1), 0 0 40px rgba(7,13,24,0.95), 0 2px 4px rgba(7,13,24,1);
-  --ts-body: 0 0 12px rgba(7,13,24,1), 0 0 24px rgba(7,13,24,0.9);
+  --ts-head: 0 2px 10px rgba(7,13,24,0.85);
+  --ts-body: 0 1px 6px rgba(7,13,24,0.85);
 }
-html { scroll-behavior: smooth; }
+section[id] { scroll-margin-top: 80px; }
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
   color: var(--text);
   background: #070d18;
   line-height: 1.6;
@@ -63,7 +66,7 @@ nav {
 }
 .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
 .nav-logo-text { display: flex; flex-direction: column; line-height: 1.1; }
-.nav-logo-text .brand { font-size: 17px; font-weight: 900; letter-spacing: 0.5px; color: var(--text); font-family: 'Arial Black', Arial, sans-serif; }
+.nav-logo-text .brand { font-size: 17px; font-weight: 800; letter-spacing: 0.5px; color: var(--text); }
 .nav-logo-text .sub { font-size: 8px; letter-spacing: 4px; color: var(--text-muted); text-transform: uppercase; }
 .nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
 .nav-links a { text-decoration: none; color: var(--text-muted); font-size: 14px; font-weight: 500; transition: color 0.2s; }
@@ -100,13 +103,12 @@ nav {
 .hero-badge .dot { width: 7px; height: 7px; background: var(--green); border-radius: 50%; }
 .hero h1 {
   font-size: clamp(36px, 6vw, 64px);
-  font-weight: 900;
+  font-weight: 800;
   line-height: 1.1;
   letter-spacing: -1px;
   color: var(--text);
   max-width: 800px;
   margin: 0 auto 20px;
-  font-family: 'Arial Black', Arial, sans-serif;
   text-shadow: none;
 }
 .hero h1 span {
@@ -125,7 +127,7 @@ nav {
 .hero-cta { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
 .hero-stats { display: flex; gap: 40px; justify-content: center; margin-top: 60px; flex-wrap: wrap; }
 .hero-stat { text-align: center; }
-.hero-stat .num { font-size: 32px; font-weight: 900; color: var(--green); font-family: 'Arial Black', Arial, sans-serif; line-height: 1; }
+.hero-stat .num { font-size: 32px; font-weight: 800; color: var(--green); line-height: 1; }
 .hero-stat .label { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
 /* ===== SECTIONS ===== */
 .section { padding: 80px 24px; background: transparent; }
@@ -137,8 +139,8 @@ nav {
 }
 .section-title {
   font-size: clamp(28px, 4vw, 40px);
-  font-weight: 900; line-height: 1.15; letter-spacing: -0.5px;
-  color: var(--text); font-family: 'Arial Black', Arial, sans-serif;
+  font-weight: 800; line-height: 1.15; letter-spacing: -0.5px;
+  color: var(--text);
   margin-bottom: 16px;
   text-shadow: var(--ts-head);
 }
@@ -165,8 +167,9 @@ nav {
   width: 44px; height: 44px;
   background: linear-gradient(135deg, rgba(34,201,139,0.2), rgba(13,138,94,0.15));
   border-radius: 10px; display: flex; align-items: center; justify-content: center;
-  margin-bottom: 16px; font-size: 22px;
+  margin-bottom: 16px;
 }
+.service-icon svg { width: 22px; height: 22px; stroke: var(--green); }
 .service-card h3 {
   font-size: 15px; font-weight: 700; margin-bottom: 8px; color: var(--text);
   text-shadow: var(--ts-head);
@@ -183,16 +186,16 @@ nav {
   width: 52px; height: 52px;
   background: linear-gradient(135deg, var(--green), var(--dark-green));
   border-radius: 50%; display: flex; align-items: center; justify-content: center;
-  font-size: 20px; font-weight: 900; color: white;
-  margin: 0 auto 18px; font-family: 'Arial Black', Arial, sans-serif;
+  font-size: 20px; font-weight: 800; color: white;
+  margin: 0 auto 18px;
 }
 .step h3 {
   font-size: 16px; font-weight: 700; margin-bottom: 8px; color: var(--text);
-  text-shadow: 0 0 20px #070d18, 0 0 40px #070d18, 0 2px 4px #000;
+  text-shadow: var(--ts-head);
 }
 .step p {
   font-size: 14px; color: var(--text-muted); line-height: 1.6;
-  text-shadow: 0 0 20px #070d18, 0 0 40px #070d18, 0 2px 4px #000;
+  text-shadow: var(--ts-body);
 }
 /* ===== PRICING ===== */
 .pricing-section { padding: 80px 24px; background: transparent; }
@@ -206,7 +209,7 @@ nav {
 }
 .pricing-card .btn { width: 100%; box-sizing: border-box; text-align: center; }
 .pricing-tier { font-size: 12px; font-weight: 700; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 16px; }
-.pricing-price { font-size: 52px; font-weight: 900; color: var(--green); font-family: 'Arial Black', Arial, sans-serif; line-height: 1; margin-bottom: 4px; }
+.pricing-price { font-size: 52px; font-weight: 800; color: var(--green); line-height: 1; margin-bottom: 4px; }
 .pricing-price sup { font-size: 24px; vertical-align: top; margin-top: 8px; }
 .pricing-unit { font-size: 13px; color: var(--text-muted); margin-bottom: 24px; }
 .pricing-volume { font-size: 14px; color: var(--text-muted); margin-bottom: 28px; padding: 10px 16px; background: rgba(255,255,255,0.06); border-radius: 8px; }
@@ -220,8 +223,7 @@ nav {
 }
 .trial-section h2 {
   font-size: clamp(28px, 4vw, 44px);
-  font-weight: 900; color: var(--text);
-  font-family: 'Arial Black', Arial, sans-serif;
+  font-weight: 800; color: var(--text);
   letter-spacing: -0.5px; margin-bottom: 0;
   text-shadow: var(--ts-head);
 }
@@ -252,7 +254,8 @@ nav {
   gap: 48px; flex-wrap: wrap;
 }
 .ta-item { display: flex; align-items: center; gap: 12px; }
-.ta-icon { font-size: 24px; }
+.ta-icon { display: flex; align-items: center; }
+.ta-icon svg { width: 24px; height: 24px; stroke: var(--green); }
 .ta-text .title { font-size: 14px; font-weight: 700; color: var(--text); }
 .ta-text .desc { font-size: 12px; color: var(--text-muted); }
 /* ===== FOOTER ===== */
@@ -260,7 +263,7 @@ footer { background: rgba(0,0,0,0.3); color: rgba(255,255,255,0.7); padding: 48p
 .footer-inner { max-width: 600px; margin: 0 auto; }
 .footer-logo { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 20px; }
 .footer-logo-text { text-align: left; }
-  .footer-logo-text .brand { font-size: 18px; font-weight: 900; color: white; font-family: 'Arial Black', Arial, sans-serif; }
+  .footer-logo-text .brand { font-size: 18px; font-weight: 800; color: white; }
 .footer-logo-text .sub { font-size: 8px; letter-spacing: 4px; color: rgba(255,255,255,0.45); text-transform: uppercase; }
 footer p { font-size: 14px; line-height: 1.6; margin-bottom: 8px; }
 footer a { color: var(--green); text-decoration: none; }
@@ -308,7 +311,8 @@ footer a { color: var(--green); text-decoration: none; }
 .ba-label-b { left: 10px; background: rgba(0,0,0,0.55); color: white; }
 .ba-label-a { right: 10px; background: var(--green); color: white; }
 /* ===== SCROLL FADE-IN ===== */
-.fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.5s ease-out, transform 0.5s ease-out; }
+.fade-in { opacity: 0; transform: translateY(18px); transition: opacity 0.35s ease-out, transform 0.35s ease-out; }
+@media (prefers-reduced-motion: reduce) { .fade-in { opacity: 1; transform: none; transition: none; } }
 .fade-in.visible { opacity: 1; transform: translateY(0); }
 .services-grid .fade-in:nth-child(1) { transition-delay: 0ms; }
 .services-grid .fade-in:nth-child(2) { transition-delay: 100ms; }
@@ -365,6 +369,12 @@ footer a { color: var(--green); text-decoration: none; }
   margin: 16px 0;
   flex-wrap: wrap;
   justify-content: center;
+  position: static;
+  background: none;
+  border-bottom: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  padding: 0;
 }
 .footer-nav a {
   color: rgba(255,255,255,0.5);
@@ -399,23 +409,23 @@ footer a { color: var(--green); text-decoration: none; }
         <path d="M 78,34 A 30,30 0 1,0 78,76" fill="none" stroke="url(#nav-cs)" stroke-width="12" stroke-linecap="round"/>
         <circle cx="78" cy="34" r="6.5" fill="white"/><circle cx="78" cy="34" r="3" fill="#22c98b"/><circle cx="78" cy="76" r="3.5" fill="white" opacity="0.35"/>
       </svg>
-      <div class="nav-logo-text"><span class="brand">CRISPR</span><span class="sub">Editing Agency</span></div>
+      <div class="nav-logo-text"><span class="brand">Crispr</span><span class="sub">Editing Agency</span></div>
     </a>
     <ul class="nav-links">
       <li><a href="#services">Services</a></li>
       <li><a href="#work">Work</a></li>
       <li><a href="#how-it-works">How It Works</a></li>
       <li><a href="#pricing">Pricing</a></li>
-      <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSfMLq1trLS1VzinDme5ZMpeNyKINCLHArDkEIwh0zGYhU-Cyg/viewform" class="btn btn-primary" style="padding:8px 18px;font-size:13px;">Get Free Trial</a></li>
+      <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSfMLq1trLS1VzinDme5ZMpeNyKINCLHArDkEIwh0zGYhU-Cyg/viewform" class="btn btn-primary" style="padding:8px 18px;font-size:13px;">Get 10 Photos Edited Free</a></li>
     </ul>
     <button class="nav-hamburger" onclick="this.closest('nav').querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">&#9776;</button>
   </div>
 </nav>
 
 <section class="hero">
-  <div class="hero-badge"><span class="dot"></span>10 photos edited free &#8212; no commitment</div>
-  <h1>Your Shoots. Back Polished.</h1>
-  <p>$1 per photo. Delivered in 24 hours. Sky replacement, HDR blending, color correction, object removal &mdash; all handled.</p>
+  <div class="hero-badge"><span class="dot"></span>First 10 photos free</div>
+  <h1>Your shoots, edited and back in 24 hours.</h1>
+  <p>$1 per photo. Sky replacement, HDR blending, color correction, object removal &mdash; all handled.</p>
   <div class="hero-cta">
     <a href="https://docs.google.com/forms/d/e/1FAIpQLSfMLq1trLS1VzinDme5ZMpeNyKINCLHArDkEIwh0zGYhU-Cyg/viewform" class="btn btn-primary btn-lg">Get 10 Photos Edited Free</a>
     <a href="#how-it-works" class="btn btn-outline btn-lg">See How It Works</a>
@@ -430,10 +440,10 @@ footer a { color: var(--green); text-decoration: none; }
 
 <div class="turnaround-strip">
   <div class="turnaround-inner">
-    <div class="ta-item"><span class="ta-icon">&#9889;</span><div class="ta-text"><div class="title">24-Hour Turnaround</div><div class="desc">Standard delivery on all orders</div></div></div>
-    <div class="ta-item"><span class="ta-icon">&#128260;</span><div class="ta-text"><div class="title">Free Revisions</div><div class="desc">Until it matches your brief</div></div></div>
-    <div class="ta-item"><span class="ta-icon">&#128193;</span><div class="ta-text"><div class="title">RAW or JPEG</div><div class="desc">We work with whatever you shoot</div></div></div>
-    <div class="ta-item"><span class="ta-icon">&#128179;</span><div class="ta-text"><div class="title">Monthly Invoicing</div><div class="desc">Simple PayPal billing, no surprises</div></div></div>
+    <div class="ta-item"><span class="ta-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span><div class="ta-text"><div class="title">24-Hour Turnaround</div><div class="desc">Standard delivery on all orders</div></div></div>
+    <div class="ta-item"><span class="ta-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg></span><div class="ta-text"><div class="title">Free Revisions</div><div class="desc">Until it matches your brief</div></div></div>
+    <div class="ta-item"><span class="ta-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg></span><div class="ta-text"><div class="title">RAW or JPEG</div><div class="desc">We work with whatever you shoot</div></div></div>
+    <div class="ta-item"><span class="ta-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></span><div class="ta-text"><div class="title">Monthly Invoicing</div><div class="desc">Simple PayPal billing, no surprises</div></div></div>
   </div>
 </div>
 
@@ -443,11 +453,11 @@ footer a { color: var(--green); text-decoration: none; }
     <h2 class="section-title">Every Edit. One Price.</h2>
     <p class="section-sub">We handle every type of real estate photo edit so your listings look their absolute best.</p>
     <div class="services-grid">
-      <div class="service-card fade-in"><div class="service-icon">&#127780;</div><h3>Sky Replacement</h3><p>Dull, overcast skies swapped for bright blue or dramatic sunset.</p></div>
-      <div class="service-card fade-in"><div class="service-icon">&#127912;</div><h3>Color Correction</h3><p>White balance, exposure, and color grading calibrated to match your brand style.</p></div>
-      <div class="service-card fade-in"><div class="service-icon">&#10024;</div><h3>HDR Blending</h3><p>Interior window pulls and multi-exposure blends for perfectly balanced rooms.</p></div>
-      <div class="service-card fade-in"><div class="service-icon">&#129529;</div><h3>Object Removal</h3><p>Power lines, cars, clutter, yard signs cleanly removed.</p></div>
-      <div class="service-card fade-in"><div class="service-icon">&#127769;</div><h3>Day-to-Dusk</h3><p>Daytime exteriors converted to golden-hour twilight for maximum impact.</p></div>
+      <div class="service-card fade-in"><div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></div><h3>Sky Replacement</h3><p>Dull, overcast skies swapped for bright blue or dramatic sunset.</p></div>
+      <div class="service-card fade-in"><div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg></div><h3>Color Correction</h3><p>White balance, exposure, and color grading calibrated to match your brand style.</p></div>
+      <div class="service-card fade-in"><div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></div><h3>HDR Blending</h3><p>Interior window pulls and multi-exposure blends for perfectly balanced rooms.</p></div>
+      <div class="service-card fade-in"><div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21"/><path d="M22 21H7"/><path d="m5 11 9 9"/></svg></div><h3>Object Removal</h3><p>Power lines, cars, clutter, yard signs cleanly removed.</p></div>
+      <div class="service-card fade-in"><div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></div><h3>Day-to-Dusk</h3><p>Daytime exteriors converted to golden-hour twilight for maximum impact.</p></div>
     </div>
   </div>
 </section>
@@ -456,7 +466,7 @@ footer a { color: var(--green); text-decoration: none; }
   <div class="section-inner">
     <p class="section-label">OUR WORK</p>
     <h2 class="section-title">See the Difference</h2>
-    <p class="section-sub">Real edits from real listings. Drag the slider to compare before and after.</p>
+    <p class="section-sub">Drag the slider to compare before and after.</p>
     <div class="gallery-grid">
       <!-- Slider 1: Bedroom -->
       <div class="gallery-item fade-in">
@@ -473,7 +483,6 @@ footer a { color: var(--green); text-decoration: none; }
           <span class="ba-label ba-label-b">Before</span>
           <span class="ba-label ba-label-a">After</span>
         </div>
-        <p class="gallery-caption">Bedroom</p>
       </div>
       <!-- Slider 2: Exterior Front Elevation -->
       <div class="gallery-item fade-in">
@@ -490,7 +499,6 @@ footer a { color: var(--green); text-decoration: none; }
           <span class="ba-label ba-label-b">Before</span>
           <span class="ba-label ba-label-a">After</span>
         </div>
-        <p class="gallery-caption">Exterior Front Elevation</p>
       </div>
       <!-- Slider 3: Living Room -->
       <div class="gallery-item fade-in">
@@ -507,7 +515,6 @@ footer a { color: var(--green); text-decoration: none; }
           <span class="ba-label ba-label-b">Before</span>
           <span class="ba-label ba-label-a">After</span>
         </div>
-        <p class="gallery-caption">Living Room</p>
       </div>
       <!-- Slider 4: Living Room (second angle) -->
       <div class="gallery-item fade-in">
@@ -524,7 +531,6 @@ footer a { color: var(--green); text-decoration: none; }
           <span class="ba-label ba-label-b">Before</span>
           <span class="ba-label ba-label-a">After</span>
         </div>
-        <p class="gallery-caption">Living Room &#8212; Second Angle</p>
       </div>
       <!-- Slider 5: Twilight Exterior -->
       <div class="gallery-item fade-in">
@@ -541,7 +547,6 @@ footer a { color: var(--green); text-decoration: none; }
           <span class="ba-label ba-label-b">Before</span>
           <span class="ba-label ba-label-a">After</span>
         </div>
-        <p class="gallery-caption">Twilight Exterior</p>
       </div>
       <!-- Slider 6: Interior Living Space -->
       <div class="gallery-item fade-in">
@@ -558,7 +563,6 @@ footer a { color: var(--green); text-decoration: none; }
           <span class="ba-label ba-label-b">Before</span>
           <span class="ba-label ba-label-a">After</span>
         </div>
-        <p class="gallery-caption">Interior Living Space</p>
       </div>
     </div>
   </div>
@@ -567,9 +571,9 @@ footer a { color: var(--green); text-decoration: none; }
 <section class="section" id="about">
       <div class="section-inner">
         <div class="section-label">About Crispr</div>
-        <h2 class="section-title">Who We Are</h2>
-        <p class="section-sub">Hi, I'm Mike. I started Crispr Editing Agency to help real estate photographers spend less time editing and more time shooting. We work with a small team of professional editors to deliver consistent, listing-ready photos with fast turnaround times.</p>
-        <p class="section-sub" style="margin-top:16px;">No lock-in, no minimums, no corporate pricing. Just consistent edits at $1 a photo, delivered fast.</p>
+        <h2 class="section-title">Hi, I'm Mike</h2>
+        <p class="section-sub">I started Crispr so real estate photographers could spend less time editing and more time shooting. I run a small team of professional editors &#8212; you send your shoot over in the evening, and consistent, listing-ready photos come back within 24 hours.</p>
+        <p class="section-sub" style="margin-top:16px;">$1 a photo at any volume, invoiced once a month through PayPal.</p>
       </div>
     </section>
 
@@ -577,12 +581,12 @@ footer a { color: var(--green); text-decoration: none; }
   <div class="section-inner">
     <div class="section-label">Process</div>
     <h2 class="section-title">Dead Simple to Get Started</h2>
-    <p class="section-sub">No contracts, no complicated onboarding. Just send your photos and get them back better.</p>
+    <p class="section-sub">Send your photos in the evening &#8212; they're back, edited, the next day.</p>
     <div class="steps">
-      <div class="step fade-in"><div class="step-num">1</div><h3>Send Your Photos</h3><p>Upload your RAW or JPEG files with the Get Free Trial button above. We'll have them back to you within 24 hours.</p></div>
-      <div class="step fade-in"><div class="step-num">2</div><h3>We Edit</h3><p>Our team handles sky replacements, HDR blending, color grading, and any cleanup &#8212; all within 24 hours.</p></div>
-      <div class="step fade-in"><div class="step-num">3</div><h3>Revisions Until It's Right</h3><p>You get full-res JPEGs back. Not happy with something? We revise until it is right, no extra charge.</p></div>
-      <div class="step fade-in"><div class="step-num">4</div><h3>Scale Up</h3><p>Like what you see? Add more photos anytime. Same flat rate of $1 per photo, no matter the volume.</p></div>
+      <div class="step fade-in"><div class="step-num">1</div><h3>Send Your Photos</h3><p>Hit any Get 10 Photos Edited Free button and upload RAW or JPEG files from your shoot.</p></div>
+      <div class="step fade-in"><div class="step-num">2</div><h3>We Edit</h3><p>Our team handles sky replacements, HDR blending, color grading, and any cleanup your photos need.</p></div>
+      <div class="step fade-in"><div class="step-num">3</div><h3>Revisions Until It's Right</h3><p>Full-res JPEGs arrive in your email within 24 hours. Not happy with something? Send it back &#8212; we'll fix it at no charge.</p></div>
+      <div class="step fade-in"><div class="step-num">4</div><h3>Pay Monthly</h3><p>One PayPal invoice covering the month's photos &#8212; $1 each, any volume. Trial photos are never billed.</p></div>
     </div>
   </div>
 </section>
@@ -591,10 +595,9 @@ footer a { color: var(--green); text-decoration: none; }
   <div class="section-inner" style="text-align:center;">
     <div class="section-label">Pricing</div>
     <h2 class="section-title">One Simple Price</h2>
-    <p class="section-sub" style="margin:0 auto;">No setup fees. No subscriptions. Pay per photo, invoiced monthly.</p>
+    <p class="section-sub" style="margin:0 auto;">No minimums or contracts &#8212; pay per photo, invoiced monthly.</p>
   </div>
   <div class="pricing-card fade-in">
-    <div class="pricing-tier">Standard</div>
     <div class="pricing-price"><sup>$</sup>1</div>
     <div class="pricing-unit">per photo</div>
     <div class="pricing-volume">Any volume</div>
@@ -612,8 +615,8 @@ footer a { color: var(--green); text-decoration: none; }
 
 <section class="trial-section" id="free-trial">
   <div style="position:relative;z-index:1;" class="fade-in">
-    <h2>Try It Free. Zero Risk.</h2>
-    <p>Send us 10 of your photos and see the difference. If you're not wowed, you owe us nothing.</p>
+    <h2>Send Us Your Next Shoot</h2>
+    <p>Ten free edits, back in 24 hours. If they're not better than what you're doing now, delete the email.</p>
     <a href="https://docs.google.com/forms/d/e/1FAIpQLSfMLq1trLS1VzinDme5ZMpeNyKINCLHArDkEIwh0zGYhU-Cyg/viewform" class="btn btn-primary">Get 10 Photos Edited Free</a>
     <p class="trial-note">Upload your photos &#8212; RAW or JPEG accepted</p>
   </div>
@@ -639,7 +642,7 @@ footer a { color: var(--green); text-decoration: none; }
         <circle cx="78" cy="34" r="3" fill="#22c98b"/>
         <circle cx="78" cy="76" r="3.5" fill="white" opacity="0.35"/>
       </svg>
-      <div class="footer-logo-text"><div class="brand">CRISPR</div><div class="sub">Editing Agency</div></div>
+      <div class="footer-logo-text"><div class="brand">Crispr</div><div class="sub">Editing Agency</div></div>
     </div>
     <p>Consistent edits. $1 per photo. Back in 24 hours.</p>
     <p style="margin-top:12px;"><a href="mailto:hello@crispreditingagency.com">hello@crispreditingagency.com</a></p>
@@ -699,8 +702,45 @@ footer a { color: var(--green); text-decoration: none; }
       entries.forEach(function(entry) {
         if (entry.isIntersecting) { entry.target.classList.add('visible'); obs.unobserve(entry.target); }
       });
-    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    }, { threshold: 0.05 });
     els.forEach(function(el) { obs.observe(el); });
+  }
+
+  /* ===== ANCHOR NAVIGATION =====
+     Native smooth scrolling (CSS scroll-behavior) is cancelled every frame
+     while the canvas rAF loop runs, which made all anchor links dead.
+     This drives the scroll manually with instant per-frame steps. */
+  function initNavScroll() {
+    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function smoothTo(targetY) {
+      if (reduceMotion) { window.scrollTo(0, targetY); return; }
+      var startY = window.scrollY;
+      var dist = targetY - startY;
+      if (Math.abs(dist) < 2) return;
+      var dur = Math.min(700, 250 + Math.abs(dist) * 0.08);
+      var t0 = null;
+      function frame(ts) {
+        if (t0 === null) t0 = ts;
+        var p = Math.min((ts - t0) / dur, 1);
+        var ease = 1 - Math.pow(1 - p, 3);
+        window.scrollTo(0, startY + dist * ease);
+        if (p < 1) requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+    }
+    document.querySelectorAll('a[href^="#"]').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        var hash = link.getAttribute('href');
+        e.preventDefault();
+        var menu = document.querySelector('.nav-links');
+        if (menu) menu.classList.remove('open');
+        if (hash === '#') { smoothTo(0); history.replaceState(null, '', location.pathname); return; }
+        var target = document.querySelector(hash);
+        if (!target) return;
+        smoothTo(target.getBoundingClientRect().top + window.scrollY - 76);
+        if (history.pushState) history.pushState(null, '', hash);
+      });
+    });
   }
 
   /* ===== STAT COUNTERS ===== */
@@ -833,10 +873,10 @@ footer a { color: var(--green); text-decoration: none; }
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', function() {
-      initSliders(); initFadeIns(); initBgCanvas();
+      initSliders(); initFadeIns(); initNavScroll(); initBgCanvas();
     });
   } else {
-    initSliders(); initFadeIns(); initBgCanvas();
+    initSliders(); initFadeIns(); initNavScroll(); initBgCanvas();
   }
 })();
 </script>
