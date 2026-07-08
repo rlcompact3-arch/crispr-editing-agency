@@ -719,14 +719,19 @@ footer a { color: var(--green); text-decoration: none; }
       if (Math.abs(dist) < 2) return;
       var dur = Math.min(700, 250 + Math.abs(dist) * 0.08);
       var t0 = null;
+      var done = false;
       function frame(ts) {
+        if (done) return;
         if (t0 === null) t0 = ts;
         var p = Math.min((ts - t0) / dur, 1);
         var ease = 1 - Math.pow(1 - p, 3);
         window.scrollTo(0, startY + dist * ease);
         if (p < 1) requestAnimationFrame(frame);
+        else done = true;
       }
       requestAnimationFrame(frame);
+      /* Failsafe: rAF can be frozen in hidden/occluded windows — snap to target */
+      setTimeout(function() { if (!done) { done = true; window.scrollTo(0, targetY); } }, dur + 150);
     }
     document.querySelectorAll('a[href^="#"]').forEach(function(link) {
       link.addEventListener('click', function(e) {
